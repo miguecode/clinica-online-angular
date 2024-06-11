@@ -12,11 +12,14 @@ import { CommonModule, NgClass } from '@angular/common';
 import { LoaderService } from '../../services/loader.service';
 import { MensajeConfirmacionComponent } from '../mensaje-confirmacion/mensaje-confirmacion.component';
 import { Administrador } from '../../classes/administrador';
+import { EspecialidadesService } from '../../services/especialidades.service';
+import { EspecialidadesComponent } from '../especialidades/especialidades.component';
 
 @Component({
   selector: 'app-registro',
   standalone: true,
-  imports: [FormsModule, RouterModule, NgClass, InicioComponent, ReactiveFormsModule, CommonModule, MensajeConfirmacionComponent],
+  imports: [FormsModule, RouterModule, NgClass, InicioComponent,
+           ReactiveFormsModule, CommonModule, MensajeConfirmacionComponent,EspecialidadesComponent],
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.css']
 })
@@ -29,6 +32,10 @@ export class RegistroComponent implements OnInit {
   formActivo: string = 'Paciente';
   mostrarConfirmacion: boolean = false;
   usuarioActual: Usuario | Paciente | Especialista | Administrador | undefined;
+  especialidades: string[] = [];
+  mostrarEspecialidades: boolean = false;
+  especialidadesSeleccionadas: string[] = [];
+
 
   constructor(
     private authService: AuthService, 
@@ -36,11 +43,13 @@ export class RegistroComponent implements OnInit {
     private fb: FormBuilder, 
     private storageService: StorageService, 
     private loader: LoaderService,
+    private especialidadesService: EspecialidadesService,
   ) {}
 
   // Inicializo los formularios al iniciar el componente
   ngOnInit(): void {
     this.getUsuarioActual();
+    this.cargarEspecialidades();
 
     this.formActivo = 'Paciente';
     this.error = false;
@@ -64,7 +73,8 @@ export class RegistroComponent implements OnInit {
       apellido: new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(20), this.palabraValidator()]),
       edad: new FormControl(null, [Validators.required, Validators.min(20), Validators.max(120)]),
       dni: new FormControl(null, [Validators.required, Validators.pattern(/^\d+$/), Validators.minLength(7), Validators.maxLength(9)]),
-      especialidad: new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(20), this.palabraValidator()]),
+      // especialidad: new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(20), this.palabraValidator()]),
+      especialidades: new FormControl([], [Validators.required]),
       imagen: new FormControl(null, Validators.required),
     });
 
@@ -91,6 +101,13 @@ export class RegistroComponent implements OnInit {
     } finally {
       this.loader.hide();
     }
+  }
+
+
+
+  //Función que carga la lista de especialidades (array de strings)
+  async cargarEspecialidades() {
+    this.especialidades = await this.especialidadesService.getEspecialidades();
   }
 
   // Validador personalizado para el nombre, apellido, especialidad y obra social
@@ -154,7 +171,7 @@ export class RegistroComponent implements OnInit {
           datos.apellido,
           datos.edad,
           datos.dni,
-          datos.especialidad,
+          this.especialidadesSeleccionadas,
           imagenURL,
           'Inhabilitado'
         );
@@ -258,5 +275,25 @@ export class RegistroComponent implements OnInit {
     } else {
       return this.formAdministrador;
     }
+  }
+
+
+  // Función que muestra el componente de las especialidades
+  mostrarEspecialidadesClick() {
+    this.mostrarEspecialidades = !this.mostrarEspecialidades;
+  }
+
+
+  // Función que recibe las especialidades que seleccionó el usuario
+  recibirEspecialidadesSeleccionadas(especialidades: string[]) {
+    this.formEspecialista.get('especialidades')?.setValue(especialidades);
+    this.especialidadesSeleccionadas = especialidades;
+    console.log('Especialidades seleccionadas:', especialidades);
+  }
+
+
+  // Función que cierra el componente de especialidades
+  cerrarEspecialidades() {
+    this.mostrarEspecialidades = false;
   }
 }

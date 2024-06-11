@@ -1,0 +1,16 @@
+<div class="contenedor" [formGroup]="especialidadesForm">
+  <div class="contenedor-checkbox">
+    <div *ngFor="let especialidad of especialidades">
+      <input type="checkbox" [formControlName]="'especialidad_' + especialidad" />
+      <label>{{ especialidad }}</label>
+    </div>
+  </div>
+
+  <input type="text" [ngModelOptions]="{ standalone: true }" 
+    [(ngModel)]="nuevaEspecialidad" class="form-control" placeholder="Nueva Especialidad" />
+  <br>
+  <button class="btnAgregar" type="button" (click)="agregarNuevaEspecialidad()">Agregar Nueva</button>
+  <br><br>
+  <button type="button" (click)="enviarEspecialidadesSeleccionadas()">Confirmar</button>
+  <button type="button" (click)="cerrar()">Cancelar</button>
+</div>

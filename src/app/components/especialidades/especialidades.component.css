@@ -1,0 +1,65 @@
+* {
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.contenedor {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.contenedor-checkbox {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se coloquen en varias líneas */
+  justify-content: center;
+  gap: 5px;
+  padding: 20px;
+  border: solid 1px #fff;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  font-size: 22px;
+  max-width: 600px; /* Ancho máximo del contenedor */
+  overflow: auto; /* Agrega barras de desplazamiento cuando los elementos superan el ancho máximo */
+}
+
+
+button {
+  width: 45%;
+  height: 68px;
+  background: #fff;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+  cursor: pointer;
+  font-size: 22px;
+  color: #0e0e0e;
+  font-weight: 600;
+  transition: 0.2s;
+  margin: 10px;
+}
+
+button:hover {
+  color: #fff;
+  background: #000;
+}
+
+.btnAgregar {
+  width: 35%;
+  height: 65px;
+  font-weight: 600;
+  font-size: 22px;
+  margin-top: 1px;
+}
+
+input {
+  font-size: 24px;
+}
+
+input[type="checkbox"] {
+  width: 21px; /* Ancho deseado */
+  height: 21px; /* Altura deseada */
+}

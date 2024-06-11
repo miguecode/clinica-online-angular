@@ -1,7 +1,6 @@
 <br><br><br><br>
 <div class="wrapper">
   @if (!mostrarConfirmacion) {
-    <!-- <h1 style="user-select: none;">{{ esPaciente ? 'Registro Paciente' : 'Registro Especialista' }}</h1> -->
 
     @if (formActivo === 'Paciente') {
       <h1 style="user-select: none;">Registro Paciente</h1>
@@ -204,7 +203,7 @@
   
   
         <div class="linea">
-          <div class="input-box">
+          <!-- <div class="input-box">
             <input formControlName="especialidad" type="text" class="form-control" placeholder="Especialidad">
             @if (formEspecialista.get('especialidad'); as aux) {
               @if (aux.invalid && (aux.dirty)) {
@@ -213,6 +212,15 @@
                 </div>
               }
             }
+          </div> -->
+
+          <button class="btn" (click)="mostrarEspecialidadesClick()">Seleccionar Especialidades</button>
+          
+          <div *ngIf="mostrarEspecialidades" class="overlay">
+            <app-especialidades 
+              (especialidadesSeleccionadas)="recibirEspecialidadesSeleccionadas($event)" 
+              (cerrarEspecialidades)="cerrarEspecialidades()">
+            </app-especialidades>
           </div>
     
           <div class="input-box">
@@ -226,6 +234,10 @@
               }
             }
           </div>
+        </div>
+
+        <div class="linea">
+          <p>Especialidades seleccionadas: {{ especialidadesSeleccionadas }} </p>
         </div>
       } @else {
         
