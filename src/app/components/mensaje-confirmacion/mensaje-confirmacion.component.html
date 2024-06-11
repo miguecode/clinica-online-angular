@@ -1,0 +1,31 @@
+<div class="texto">
+  @if (usuario?.perfil !== 'Administrador') {
+    <h2>Falta un pasito más...</h2>
+
+    <p>Te enviamos un <span>enlace de verificación</span> al siguiente correo: <span>{{ usuario?.correo }}</span>.
+       Para completar el registro, tenés que <span>verificar tu correo</span>.
+      Por las dudas, revisá tu carpeta de 'Correo no deseado'.
+    </p>
+    <br>
+    <p>Por cierto, recordá que si te registraste como <span>Especialista</span>, además de <span>verificar tu correo</span>,
+      vas a tener que esperar a que algún <span>Administrador</span> habilite tu cuenta para poder ingresar con ella.
+    </p>
+
+    <div class="botones">
+      <!-- <button (click)="reenviarCorreo()">Reenviar correo</button> -->
+      <button (click)="irAInicio()">Volver a Inicio</button>
+    </div>
+  } @else {
+    <h2>Usuario Registrado</h2>
+
+    <p>Le enviamos un <span>enlace de verificación</span> al siguiente correo: <span>{{ usuario?.correo }}</span>.
+      Para completar el registro, el usuario tendrá que <span>verificar su correo</span>.
+      Por las dudas, debería revisar su carpeta de 'Correo no deseado'.
+    </p>
+
+    <div class="botones">
+      <!-- <button (click)="reenviarCorreo()">Reenviar correo</button> -->
+      <button (click)="irAGestionUsuarios()">Volver a Gestión de Usuarios</button>
+    </div>
+  }
+</div>

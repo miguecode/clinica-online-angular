@@ -1,0 +1,10 @@
+<div class="texto">
+  <h3>{{ fechaYHora }}</h3>
+  <h1>Clínica Online</h1>
+  <h5>Iniciaste sesión como: {{ usuarioActual?.nombre }} {{ usuarioActual?.apellido }} ({{ usuarioActual?.perfil }})</h5>
+  <div class="botones">
+    @if (usuarioActual?.perfil === 'Administrador') {
+      <button (click)="irAGestionDeUsuarios()">Gestión de Usuarios</button>
+    }
+  </div>
+</div>

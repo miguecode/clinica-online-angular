@@ -1,0 +1,55 @@
+.texto {
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  align-content: center;
+  background: #3c5ebc;
+  backdrop-filter: blur(55px);
+  box-shadow: 10px  rgba(0, 0, 0, .2);
+  color: #fff;
+  border-radius: 10px;
+  padding: 40px;
+  width: 90vh;
+  text-align: center;
+}
+
+h2 {
+  font-size: 55px;
+  text-align: center;
+}
+p {
+  font-size: 22px;
+}
+
+.botones {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  margin-top: 20px;
+  width: 40%;
+  height: 80px;
+  max-height: max-content;
+  background: #fff;
+  border: none;
+  outline: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 25px;
+  color: #0e0e0e;
+  font-weight: 600;
+  transition: 0.30s;
+}
+
+button:hover {
+  background-color:#0e0e0e;
+  color: #fff;
+  /* transform: scale(1.11); */
+}
+
+span {
+  font-weight: bold;
+}

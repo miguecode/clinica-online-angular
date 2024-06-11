@@ -1,0 +1,21 @@
+<header class="header">
+  @if (isLoggedIn) {
+    <a (click)="irAInicio()" class="logo">Clínica Online</a>
+  } @else {
+    <a (click)="irABienvenido()" class="logo">Clínica Online</a>
+  }
+
+  <nav class="navbar">
+    <!-- <a (click)="irAListadoPublico()">Listado Público</a> -->
+    
+    @if (isLoggedIn) {
+      <a (click)="irAInicio()">Inicio</a>
+      <a (click)="cerrarSesion()">Cerrar Sesión</a>
+      } @else {
+      <a (click)="irABienvenido()">Inicio</a>
+      <a (click)="irALogin()">Iniciar Sesión</a>
+      <a (click)="irARegistro()">Crear Cuenta</a>
+      <a (click)="irASobreMi()">Sobre Mí</a>
+    }
+  </nav>
+</header>

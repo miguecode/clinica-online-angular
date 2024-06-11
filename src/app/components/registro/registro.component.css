@@ -1,0 +1,155 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.wrapper {
+  width: 130vh;
+  flex-direction: column;
+  gap: 10px;
+  background: #3c5ebc;
+  border: 2px solid rgba(255, 255, 255, .4);
+  backdrop-filter: blur(40px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+  color: #fff;
+  border-radius: 10px;
+  padding: 30px 40px;
+}
+
+.linea {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.wrapper h1 {
+  font-size: 38px;
+  text-align: center;
+}
+
+.wrapper .input-box {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  margin: 30px 0;
+}
+
+.input-box input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  border: 2px solid rgba(255, 255, 255, .7);
+  border-radius: 10px;
+  font-size: 16px;
+  color: #fff;
+  padding: 20px 45px 20px 20px;
+}
+
+.input-box input::placeholder {
+  color: #fff;
+}
+
+.input-box i {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+}
+
+.wrapper .remember-forgot {
+  display: felx;
+  justify-content: space-between;
+  font-size: 14.5px;
+  margin: -15px 0 15px;
+}
+
+.remember-forgot label input {
+  accent-color: #fff;
+  margin-right: 3px;
+}
+
+.remember-forgot a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.remember-forgot a:hover {
+  text-decoration: underline;
+}
+
+.wrapper .btn {
+  width: 45%;
+  height: 68px;
+  background: #fff;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+  cursor: pointer;
+  font-size: 22px;
+  color: #0e0e0e;
+  font-weight: 600;
+  transition: 0.2s;
+  margin: 10px;
+}
+.wrapper .btn:hover {
+  background-color:#0e0e0e;
+  color: #fff;
+  /* transform: scale(1.09); */
+}
+
+.wrapper .register-link {
+  font-size: 14.5px;
+  text-align: center;
+  margin: 20px 0 15px;
+}
+
+.register-link p a {
+  cursor: pointer;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.register-link p a:hover {
+  text-decoration: underline;
+}
+
+.mensaje {
+  font-size: 22px;
+  margin-top: 25px;
+}
+
+.error {
+  color: #db1e1e;
+  font-weight: bold;
+  border-color: #811919;
+  background: #fff;
+  padding-left: 5px;
+  border-radius: 10px;
+}
+
+#selectFile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.botones {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.contenedor-mensaje-confirmacion {
+  display: flex;
+  justify-content: center;
+}

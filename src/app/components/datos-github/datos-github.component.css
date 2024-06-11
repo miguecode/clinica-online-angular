@@ -1,0 +1,75 @@
+* {
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.contenedor {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 150vh;
+  height: 30%;
+  background: rgba(0, 0, 0, 0.874);
+  padding: 30px;
+  color: #fff;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+  margin-bottom: 10px;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+img {
+  height: 25%;
+  width: 25%;
+  border-radius: 50%;
+}
+
+.contenedor-dentro {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: start;
+  gap: 60px;
+}
+
+.contenedor-datos {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+p {
+  width: 100%;
+  font-size: 23px;
+}
+
+span {
+  font-weight: bold;
+}
+
+.contenedor-miJuego {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 150vh;
+  height: 30%;
+  background: rgba(0, 0, 0, 0.874);
+  padding: 30px;
+  color: #fff;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+h2 {
+  font-weight: bold;
+}

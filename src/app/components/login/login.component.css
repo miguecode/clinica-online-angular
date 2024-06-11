@@ -1,0 +1,154 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.wrapper {
+  width: 420px;
+  background: #3c5ebc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+  color: #fff;
+  border-radius: 10px;
+  padding: 15px 25px;
+}
+
+.wrapper h1 {
+  font-size: 36px;
+  text-align: center;
+}
+
+.wrapper .input-box {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  margin: 30px 0;
+}
+
+.input-box input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  border: 2px solid rgba(255, 255, 255, .7);
+  border-radius: 10px;
+  font-size: 16px;
+  color: #fff;
+  padding: 20px 45px 20px 20px;
+}
+
+.input-box input::placeholder {
+  color: #fff;
+}
+
+.input-box img {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+}
+
+.wrapper .btn {
+  width: 100%;
+  height: 45px;
+  background: #fff;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+  cursor: pointer;
+  font-size: 16px;
+  color: #0e0e0e;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.wrapper .btn:hover {
+  background-color:#0e0e0e;
+  color: #fff;
+  /* transform: scale(1.09); */
+}
+
+.accesos {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 420px;
+  background: #3c5ebc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+  color: #fff;
+  border-radius: 10px;
+  padding: 15px 15px;
+  text-align: center;
+}
+.acceso-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+.acceso-btn img {
+  background: transparent;
+  padding: 8px;
+  width: 85px;
+  height: 85px;
+  border: 2px solid rgba(255, 255, 255, .4);
+  backdrop-filter: blur(40px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+  border-radius: 50%;
+}
+.imagenes {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+}
+
+img {
+  transition: 0.3s;
+}
+img:hover {
+  transform: scale(1.2);
+}
+
+.mensaje {
+  font-size: 16.5px;
+  margin-top: 25px;
+  text-align: center;
+}
+
+.error {
+  color: #db1e1e;
+  font-weight: bold;
+  border-color: #811919;
+  background: #fff;
+  padding-left: 5px;
+  border-radius: 10px;
+}
+
+.alert {
+  color: #811919;
+  background: #fff;
+  font-weight: bold;
+  border-color: #811919;
+  padding-left: 5px;
+}
+
+.wrapper .register-link {
+  font-size: 14.5px;
+  text-align: center;
+  margin: 20px 0 15px;
+}
+
+.register-link p a {
+  cursor: pointer;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.register-link p a:hover {
+  text-decoration: underline;
+}
