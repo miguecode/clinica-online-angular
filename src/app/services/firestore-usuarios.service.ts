@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Usuario } from '../classes/usuario';
-import { Firestore, collection, collectionData, doc, getDocs, query, updateDoc, where } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, doc, getDoc, getDocs, limit, query, updateDoc, where } from '@angular/fire/firestore';
 import { addDoc } from 'firebase/firestore';
 import { Paciente } from '../classes/paciente';
 import { Especialista } from '../classes/especialista';
@@ -71,11 +71,29 @@ export class FirestoreUsuariosService {
     return undefined;
   }
 
+  async getUsuarioPorId(id: string): Promise<Usuario | Paciente | Especialista | Administrador | undefined> {
+    try {
+      const userDocRef = doc(this.firestore, `${this.PATH}/${id}`);
+      const docSnap = await getDoc(userDocRef);
 
-  // Función para obtener todos los usuarios según su perfil
-  async obtenerUsuariosPorPerfil(perfil: string): Promise<(Usuario | Paciente | Especialista | Administrador)[]> {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        return this.convertirAUsuario(data, id);
+      } else {
+        console.log('No such document!');
+        return undefined;
+      }
+    } catch (error) {
+      console.error('Error fetching user by ID:', error);
+      return undefined;
+    }
+  }
+
+
+  // Función para obtener usuarios específicos según su perfil y con un límite
+  async obtenerUsuariosPorPerfil(perfil: string, limite: number): Promise<(Usuario | Paciente | Especialista | Administrador)[]> {
     const col = collection(this.firestore, this.PATH);
-    const q = query(col, where('perfil', '==', perfil));
+    const q = query(col, where('perfil', '==', perfil), limit(limite));
     const querySnapshot = await getDocs(q);
 
     return querySnapshot.docs.map(doc => this.convertirAUsuario(doc.data(), doc.id));

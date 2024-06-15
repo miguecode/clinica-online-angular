@@ -1,0 +1,9 @@
+<div class="contenedor">
+  <h1>Mis Turnos</h1>
+
+  @if (usuarioActual?.perfil === 'Paciente' || usuarioActual?.perfil === 'Especialista') {
+    <app-tabla-turnos [usuarioActual]="usuarioActual"></app-tabla-turnos>
+  } @else if (usuarioActual?.perfil === 'Especialista') {
+    <h1>¿Qué haces acá?</h1>
+  }
+</div>

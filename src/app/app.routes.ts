@@ -36,6 +36,11 @@ export const routes: Routes = [
     canActivate: [adminGuard]
   },
   {
+    path: 'mis-turnos',
+    loadComponent: () => import('./components/turnos/mis-turnos/mis-turnos.component').then(m => m.MisTurnosComponent),
+    canActivate: [logeadoGuard]
+  },
+  {
     path: '**',
     loadComponent: () => import('./components/error/error.component').then(m => m.ErrorComponent),
   }

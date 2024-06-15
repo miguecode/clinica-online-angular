@@ -27,7 +27,7 @@ export class GestionUsuariosComponent implements OnInit {
 
   async cargarUsuarios(): Promise<void> {
     this.loader.show();
-    this.listaUsuarios = await this.usuariosService.obtenerUsuariosPorPerfil(this.perfilSeleccionado);
+    this.listaUsuarios = await this.usuariosService.obtenerUsuariosPorPerfil(this.perfilSeleccionado, 99);
     this.loader.hide();
   }
 

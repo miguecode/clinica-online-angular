@@ -1,0 +1,55 @@
+h1 {
+  text-align: center;
+  margin-bottom: 80px;
+  font-size: 90px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #bdd3f8;
+  text-align: left;
+}
+
+.boton {
+  margin-top: 20px;
+  width: 40%;
+  height: 60px;
+  background: #bdd3f8;
+  border: none;
+  outline: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 25px;
+  color: #3c5ebc;
+  font-weight: 600;
+  transition: 0.30s;
+}
+
+.boton:hover {
+  background-color:#c5d6f5;
+  color: #2e4da3;
+}
+
+.filtro {
+  width: 100vh;
+  display: flex;
+  gap: 15px;
+  justify-content: center;  
+}
+
+.grupo {
+  background-color: #bdd3f8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px;
+  border-radius: 10px;
+    h3 {
+      color: #3c5ebc;
+    }
+}

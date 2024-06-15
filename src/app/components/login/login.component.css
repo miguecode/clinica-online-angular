@@ -6,9 +6,9 @@
 }
 
 .wrapper {
-  width: 420px;
+  width: 100%;
   background: #3c5ebc;
-  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   color: #fff;
   border-radius: 10px;
   padding: 15px 25px;
@@ -32,7 +32,7 @@
   background: transparent;
   border: none;
   outline: none;
-  border: 2px solid rgba(255, 255, 255, .7);
+  border: 2px solid rgba(255, 255, 255, 0.7);
   border-radius: 10px;
   font-size: 16px;
   color: #fff;
@@ -58,7 +58,7 @@
   border: none;
   outline: none;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   font-size: 16px;
   color: #0e0e0e;
@@ -67,7 +67,7 @@
 }
 
 .wrapper .btn:hover {
-  background-color:#0e0e0e;
+  background-color: #0e0e0e;
   color: #fff;
   /* transform: scale(1.09); */
 }
@@ -76,9 +76,9 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  width: 420px;
+  width: 100%;
   background: #3c5ebc;
-  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   color: #fff;
   border-radius: 10px;
   padding: 15px 15px;
@@ -94,10 +94,9 @@
   padding: 8px;
   width: 85px;
   height: 85px;
-  border: 2px solid rgba(255, 255, 255, .4);
+  border: 2px solid #fff;
   backdrop-filter: blur(40px);
-  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
-  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 .imagenes {
   margin-top: 15px;

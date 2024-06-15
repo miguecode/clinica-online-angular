@@ -58,4 +58,8 @@ export class InicioComponent implements OnInit {
   irAGestionDeUsuarios() {
     this.router.navigate(['/gestion-usuarios']);
   }
+
+  irAMisTurnos() {
+    this.router.navigate(['/mis-turnos']);
+  }
 }

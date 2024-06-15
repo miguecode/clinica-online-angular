@@ -1,0 +1,25 @@
+h1 {
+  text-align: center;
+  margin-bottom: 80px;
+  font-size: 90px;
+}
+
+.boton {
+  margin-top: 20px;
+  width: 40%;
+  height: 60px;
+  background: #bdd3f8;
+  border: none;
+  outline: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 25px;
+  color: #3c5ebc;
+  font-weight: 600;
+  transition: 0.30s;
+}
+
+.boton:hover {
+  background-color:#c5d6f5;
+  color: #2e4da3;
+}

@@ -1,4 +1,21 @@
 <br><br><br><br>
+<div class="accesos">
+  <div>
+    <h3>Accesos Rápidos</h3>
+  </div>
+  <div class="imagenes">
+  
+    @for (accesoRapido of accesosRapidos; track accesoRapido) {
+      <div>
+        <button (click)="autocompletarDatos(accesoRapido.correo, '111111')" class="acceso-btn">
+          <img [src]="getFotoPerfil(accesoRapido)" alt="Foto de perfil">
+        </button>
+        <p [textContent]="accesoRapido.perfil"></p>
+      </div>
+    }
+  </div>
+</div>  
+<br>
 <div class="wrapper">
   <h1 style="user-select: none;">Iniciar Sesión</h1>
 
@@ -36,28 +53,5 @@
 
   <div class="register-link">
     <p>¿No tenés una cuenta? <a routerLink="/registro">Registrate</a></p>
-  </div>
-</div>
-
-<br>
-<div class="accesos">
-<div>
-  <h3>Accesos Rápidos</h3>
-</div>
-<div class="imagenes">
-  <div>
-    <button (click)="autocompletarDatos('junmigue7@gmail.com', '111111')"
-     class="acceso-btn"><img src="../../../assets/images/user-blanco.png"></button>
-    <p>Administrador</p>
-  </div>
-  <div>
-    <button (click)="autocompletarDatos('mariagom12@yopmail.com', '111111')"
-     class="acceso-btn"><img src="../../../assets/images/user-blanco.png"></button>
-    <p>Paciente</p>
-  </div>
-  <div>
-    <button (click)="autocompletarDatos('gastongonzalez@yopmail.com', '111111')"
-     class="acceso-btn"><img src="../../../assets/images/user-blanco.png"></button>
-    <p>Especialista</p>
   </div>
 </div>

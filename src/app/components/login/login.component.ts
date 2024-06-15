@@ -9,6 +9,7 @@ import { Usuario } from '../../classes/usuario';
 import { LoaderService } from '../../services/loader.service';
 import { Especialista } from '../../classes/especialista';
 import { Paciente } from '../../classes/paciente';
+import { Administrador } from '../../classes/administrador';
 
 @Component({
   selector: 'app-login',
@@ -22,12 +23,13 @@ export class LoginComponent implements OnInit{
   error: boolean = false;
   usuarioIngresado: Usuario | Paciente | Especialista | undefined | null = undefined;
   form!: FormGroup;
+  accesosRapidos: Usuario[] = [];
 
   constructor(private authService: AuthService, private usuarioService: FirestoreUsuariosService,
     private router: Router, private fb: FormBuilder, private loader: LoaderService) {}
 
 
-  // Función que se ejecuta al inicializar el componente, crea al formulario
+  // Función que se ejecuta al inicializar el componente, crea al formulario y carga los accesos rápidos
   ngOnInit(): void {
     this.error = false;
     
@@ -35,6 +37,37 @@ export class LoginComponent implements OnInit{
       correo: new FormControl(null, Validators.compose([Validators.required, Validators.email])),
       clave: new FormControl(null, Validators.compose([Validators.required, Validators.minLength(6)]))
     });
+
+    this.cargarAccesosRapidos();
+  }
+
+  // Función que carga el array de accesos rápidos con 6 usuarios específicos
+  async cargarAccesosRapidos() {
+    try {
+      const pacientes = await this.usuarioService.obtenerUsuariosPorPerfil('Paciente', 3);
+      const especialistas = await this.usuarioService.obtenerUsuariosPorPerfil('Especialista', 2);
+      const administradores = await this.usuarioService.obtenerUsuariosPorPerfil('Administrador', 1);
+  
+      this.accesosRapidos = [...pacientes, ...especialistas, ...administradores];
+
+      console.log(this.accesosRapidos);
+    } catch (error) {
+      console.error('Error cargando accesos rápidos:', error);
+    }
+  }
+  
+
+  // Función que devuelve la foto del usuario recibido, sea del tipo que sea
+  getFotoPerfil(usuario: Usuario): string {
+    if (usuario instanceof Paciente) {
+      return (usuario as Paciente).imagenUno;
+    } else if (usuario instanceof Especialista) {
+      return (usuario as Especialista).imagenPerfil;
+    } else if (usuario instanceof Administrador) {
+      return (usuario as Administrador).imagenPerfil;
+    } else {
+      return '';
+    }
   }
 
 

@@ -1,0 +1,96 @@
+<div class="filtro">
+  @if (usuarioActual?.perfil === 'Paciente') {
+    <div class="grupo">
+      <h3>Especialistas</h3>
+      <div>
+        @for (especialista of especialistas; track especialista) {
+          <div>
+            <input type="checkbox" id="especialista-{{ especialista.apellido }}" 
+                   (change)="actualizarFiltro('especialista', especialista.apellido, $event)">
+            <label for="especialista-{{ especialista.apellido }}">{{ especialista.apellido }}</label>
+          </div>
+        }
+      </div>
+    </div>
+  } @else if (usuarioActual?.perfil === 'Especialista') {
+    <div class="grupo">
+      <h3>Pacientes</h3>
+      <div>
+        @for (paciente of pacientes; track paciente) {
+          <div>
+            <input type="checkbox" id="paciente-{{ paciente.apellido }}" 
+                   (change)="actualizarFiltro('paciente', paciente.apellido, $event)">
+            <label for="paciente-{{ paciente.apellido }}">{{ paciente.apellido }}</label>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <div class="grupo">
+    <h3>Especialidades</h3>
+    <div>
+      @for (especialidad of especialidades; track especialidad) {
+        <div>
+          <input type="checkbox" id="especialidad-{{ especialidad }}" 
+                 (change)="actualizarFiltro('especialidad', especialidad, $event)">
+          <label for="especialidad-{{ especialidad }}">{{ especialidad }}</label>
+        </div>
+      }
+    </div>
+  </div>
+</div>
+
+<br><br>
+
+@if (usuarioActual?.perfil === 'Paciente') {
+
+  <div class="tabla-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Id Turno</th>
+          <th>Especialidad</th>
+          <th>Especialista</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (turno of turnosFiltrados; track turno) {
+          <tr>
+            <td>{{ turno.idTurno }}</td>
+            <td>{{ turno.especialidad }}</td>
+            <td>{{ turno.apellidoEspecialista }}</td>
+            <td>{{ turno.estado }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+} @else if (usuarioActual?.perfil === 'Especialista') {
+
+  <div class="tabla-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Id Turno</th>
+          <th>Especialidad</th>
+          <th>Paciente</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (turno of turnosFiltrados; track turno) {
+          <tr>
+            <td>{{ turno.idTurno }}</td>
+            <td>{{ turno.especialidad }}</td>
+            <td>{{ turno.apellidoPaciente }}</td>
+            <td>{{ turno.estado }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+}

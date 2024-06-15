@@ -23,6 +23,7 @@ h1 {
 .segmented-control button.active {
   background-color: #3c5ebc;
   color: #ffffff;
+  border: solid 11px #12265c;
 }
 
 #primerBoton {
@@ -30,6 +31,10 @@ h1 {
 }
 #ultimoBoton {
   border-radius: 0px 20px 20px 0px;
+}
+
+.imgBoton {
+  width: 180px;
 }
 
 table {

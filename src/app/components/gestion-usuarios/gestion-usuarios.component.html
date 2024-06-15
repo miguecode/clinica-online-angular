@@ -1,18 +1,16 @@
+<br><br><br><br><br>
 <h1>Gestión de Usuarios</h1>
-
 <div class="segmented-control">
-  <button (click)="cambiarPerfil('Paciente')" id="primerBoton"
-  [class.active]="'Paciente' === perfilSeleccionado">Pacientes</button>
+  <button (click)="cambiarPerfil('Paciente')"
+  [class.active]="'Paciente' === perfilSeleccionado">
+  <img class="imgBoton" src="../../../assets/images/paciente.png" alt="Paciente">
+</button>
   <button (click)="cambiarPerfil('Especialista')" 
-  [class.active]="'Especialista' === perfilSeleccionado">Especialistas</button>
-  <button (click)="cambiarPerfil('Administrador')" id="ultimoBoton"
-  [class.active]="'Administrador' === perfilSeleccionado">Administradores</button>
-
-  <!-- @for (perfil of perfiles; track perfil) {
-    <button (click)="cambiarPerfil(perfil)" [class.active]="perfil === perfilSeleccionado">
-      {{ perfil }}
-    </button>
-  } -->
+  [class.active]="'Especialista' === perfilSeleccionado">
+  <img class="imgBoton" src="../../../assets/images/especialista.png" alt="Especialista">
+</button>
+  <!-- <button (click)="cambiarPerfil('Administrador')"
+  [class.active]="'Administrador' === perfilSeleccionado">Administradores</button> -->
 </div>
 
 <table>
@@ -31,11 +29,7 @@
       @if (perfilSeleccionado === 'Especialista') {
         <th>Especialidad</th>
         <th>Estado</th>
-      }
-      @if (perfilSeleccionado === 'Especialista' || perfilSeleccionado === 'Administrador') {
         <th>Imagen Perfil</th>
-      }
-      @if (perfilSeleccionado === 'Especialista') {
         <th class="thBoton">Cambiar Estado</th>
       }
     </tr>
@@ -56,11 +50,7 @@
         @if (esEspecialista(usuario)) {
           <td>{{ usuario.especialidad }}</td>
           <td class="tdEstado">{{ usuario.estado }}</td>
-        }
-        @if (esEspecialista(usuario) || esAdministrador(usuario)) {
           <td class="tdImagen"><img [src]="usuario.imagenPerfil" alt="Imagen Perfil"></td>
-        }
-        @if (esEspecialista(usuario)) {
           <td class="tdBoton">
             <button class="botonHabilitar" (click)="cambiarEstadoEspecialista(usuario)">
               @if (usuario.estado !== 'Habilitado') {
