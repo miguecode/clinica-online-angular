@@ -25,6 +25,9 @@ export class TurnosService {
       doc.especialidad,
       doc.apellidoEspecialista,
       doc.apellidoPaciente,
+      doc.comentario,
+      doc.diagnostico,
+      doc.encuesta,
       doc.estado
     );
   }
@@ -37,6 +40,9 @@ export class TurnosService {
       especialidad: turno.especialidad,
       apellidoEspecialista: turno.apellidoEspecialista,
       apellidoPaciente: turno.apellidoPaciente,
+      comentario: turno.comentario,
+      diagnostico: turno.diagnostico,
+      encuesta: turno.encuesta,
       estado: turno.estado
     });
   }
@@ -54,6 +60,9 @@ export class TurnosService {
         especialidad: turno.especialidad,
         apellidoEspecialista: turno.apellidoEspecialista,
         apellidoPaciente: turno.apellidoPaciente,
+        comentario: turno.comentario,
+        diagnostico: turno.diagnostico,
+        encuesta: turno.encuesta,
       });
       console.log('Turno modificado correctamente en la BD');
     } catch (error) {

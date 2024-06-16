@@ -1,5 +1,5 @@
 <div class="filtro">
-  @if (usuarioActual?.perfil === 'Paciente') {
+  @if (usuarioActual?.perfil === 'Paciente' || usuarioActual?.perfil === 'Administrador') {
     <div class="grupo">
       <h3>Especialistas</h3>
       <div>
@@ -49,10 +49,14 @@
     <table>
       <thead>
         <tr>
-          <th>Id Turno</th>
+          <th>ID</th>
           <th>Especialidad</th>
           <th>Especialista</th>
           <th>Estado</th>
+          <th>Acciones</th>
+          <!-- <th>Ver Reseña</th>
+          <th>Completar Encuesta</th>
+          <th>Calificar Atención</th> -->
         </tr>
       </thead>
       <tbody>
@@ -62,6 +66,22 @@
             <td>{{ turno.especialidad }}</td>
             <td>{{ turno.apellidoEspecialista }}</td>
             <td>{{ turno.estado }}</td>
+
+            @if (turno.estado !== 'Cancelado' && turno.estado !== 'Realizado' && turno.estado !== 'Rechazado') {
+              <td class="tdBoton"><button id="btnCancelar" (click)="cancelarTurno(turno)">CANCELAR</button></td>
+            }
+
+            @if (turno.comentario !== 'NN' || turno.diagnostico !== 'NN') {
+              <td class="tdBoton"><button id="btnResenia" (click)="verResenia(turno)">RESEÑA</button></td>
+            }
+
+            @if (turno.estado === 'Realizado') {
+              <td class="tdBoton"><button id="btnCalificar" (click)="calificarAtencion(turno)">CALIFICAR</button></td>
+              
+              @if (turno.diagnostico !== 'NN' && turno.encuesta[1] === "0") {
+                <td class="tdBoton"><button id="btnEncuesta" (click)="completarEncuesta(turno)">ENCUESTA</button></td>
+              }
+            }
           </tr>
         }
       </tbody>
@@ -74,10 +94,11 @@
     <table>
       <thead>
         <tr>
-          <th>Id Turno</th>
+          <th>ID</th>
           <th>Especialidad</th>
           <th>Paciente</th>
           <th>Estado</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -87,10 +108,63 @@
             <td>{{ turno.especialidad }}</td>
             <td>{{ turno.apellidoPaciente }}</td>
             <td>{{ turno.estado }}</td>
+
+            @if (turno.estado !== 'Cancelado' && turno.estado !== 'Realizado') {
+              <td class="tdBoton"><button id="btnCancelar" (click)="cancelarTurno(turno)">CANCELAR</button></td>
+            }
+
+            @if (turno.estado === 'Pendiente') {
+              <td class="tdBoton"><button id="btnCancelar" (click)="rechazarTurno(turno)">RECHAZAR</button></td>
+            }
+
+            @if (turno.estado === 'Pendiente') {
+              <td class="tdBoton"><button id="btnResenia" (click)="aceptarTurno(turno)">ACEPTAR</button></td>
+            }
+
+            @if (turno.estado === 'Aceptado') {
+              <td class="tdBoton"><button id="btnResenia" (click)="finalizarTurno(turno)">FINALIZAR</button></td>
+            }
+
+            @if (turno.comentario !== 'NN' || turno.diagnostico !== 'NN') {
+              <td class="tdBoton"><button id="btnResenia" (click)="verResenia(turno)">RESEÑA</button></td>
+            }
+
           </tr>
         }
       </tbody>
     </table>
   </div>
 
+} @else if (usuarioActual?.perfil === 'Administrador') {
+  <div class="tabla-container">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Especialidad</th>
+          <th>Especialista</th>
+          <th>Paciente</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (turno of turnosFiltrados; track turno) {
+          <tr>
+            <td>{{ turno.idTurno }}</td>
+            <td>{{ turno.especialidad }}</td>
+            <td>{{ turno.apellidoEspecialista }}</td>
+            <td>{{ turno.apellidoPaciente }}</td>
+            <td>{{ turno.estado }}</td>
+
+            @if (turno.estado === 'Pendiente') {
+              <td class="tdBoton"><button id="btnCancelar" (click)="cancelarTurno(turno)">CANCELAR</button></td>
+            } @else {
+              <td class="tdBoton"><p>No disponible</p></td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 }

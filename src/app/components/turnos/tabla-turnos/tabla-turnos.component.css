@@ -53,3 +53,61 @@ th, td {
       color: #3c5ebc;
     }
 }
+
+.tdBoton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0px;
+  padding: 3px;
+  border-radius: 0px;
+}
+
+button {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 5px 13px 5px 13px;
+  margin: 0px;
+  transition: 0.2s;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+}
+#btnCancelar {
+  color: #b64848;
+}
+#btnCancelar:hover {
+  color: #fff;
+  background-color: #b64848;
+}
+
+#btnResenia {
+  color: #45a550;
+}
+#btnResenia:hover {
+  color: #fff;
+  background-color: #45a550;
+}
+
+#btnEncuesta {
+  color: #8e45b5;
+}
+#btnEncuesta:hover {
+  color: #fff;
+  background-color: #8e45b5;
+}
+
+#btnCalificar {
+  color: #4868b9;
+}
+#btnCalificar:hover {
+  color: #fff;
+  background-color: #4868b9;
+}
+
+#saso {
+  color:red;
+}

@@ -8,6 +8,8 @@
     }
     @if (usuarioActual?.perfil === 'Paciente' || usuarioActual?.perfil === 'Especialista') {
       <button (click)="irAMisTurnos()">Mis Turnos</button>
+    } @else if (usuarioActual?.perfil === 'Administrador') {
+      <button (click)="irAMisTurnos()">Turnos</button>
     }
   </div>
 </div>
