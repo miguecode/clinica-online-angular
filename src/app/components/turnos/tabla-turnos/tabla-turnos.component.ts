@@ -7,13 +7,14 @@ import { EspecialidadesService } from '../../../services/especialidades.service'
 import { Turno } from '../../../classes/turno';
 import { Especialista } from '../../../classes/especialista';
 import { Paciente } from '../../../classes/paciente';
-import Swal from 'sweetalert2';
 import { Administrador } from '../../../classes/administrador';
+import Swal from 'sweetalert2';
+import { FechaPipe } from '../../../pipes/fecha.pipe';
 
 @Component({
   selector: 'app-tabla-turnos',
   standalone: true,
-  imports: [],
+  imports: [FechaPipe],
   templateUrl: './tabla-turnos.component.html',
   styleUrls: ['./tabla-turnos.component.css']
 })
@@ -39,21 +40,27 @@ export class TablaTurnosComponent implements OnInit {
 
   this.cargarTurnos()
     .then(() => {
-      const promises: Promise<any>[] = [];
+      const promesas: Promise<any>[] = [];
       if (this.usuarioActual instanceof Paciente || this.usuarioActual instanceof Administrador) {
-        promises.push(this.cargarEspecialidades());
-        promises.push(this.cargarEspecialistas());
+        promesas.push(this.cargarEspecialidades());
+        promesas.push(this.cargarEspecialistas());
       } else if (this.usuarioActual instanceof Especialista) {
-        promises.push(this.cargarPacientes());
+        promesas.push(this.cargarPacientes());
         this.especialidades = this.usuarioActual.especialidad;
       }
       
-      return Promise.all(promises); // Espero a que todas las promesas se resuelvan
+
+
+      return Promise.all(promesas); // Espero a que todas las promesas se resuelvan
     })
     .catch(error => {
-      console.error('Error durante la carga inicial:', error);
+      console.error('Error durante la inicialización:', error);
     })
     .finally(() => {
+      console.log(this.turnos);
+      console.log(this.especialidades);
+      console.log(this.especialistas);
+      console.log(this.pacientes);
       this.loader.hide();
     });
 }
@@ -147,6 +154,7 @@ export class TablaTurnosComponent implements OnInit {
       inputPlaceholder: 'Escribí tu comentario acá...',
       showCancelButton: true,
       confirmButtonText: 'Confirmar cancelación',
+      confirmButtonColor: '#3c5ebc',
       cancelButtonText: 'Cerrar'
     }).then((result) => {
       if (result.isConfirmed) {
@@ -177,7 +185,8 @@ export class TablaTurnosComponent implements OnInit {
       html: htmlContent,
       // showCloseButton: true,
       focusConfirm: false,
-      confirmButtonText: 'Cerrar'
+      confirmButtonText: 'Cerrar',
+      confirmButtonColor: '#3c5ebc',
     });
   }
   
@@ -185,7 +194,7 @@ export class TablaTurnosComponent implements OnInit {
     Swal.fire({
       title: 'Completar Encuesta',
       html: `
-        <p>Por favor, completá esta encuesta para ayudarnos a mejorar.</p>
+        <p>Por favor, completá esta encuesta para ayudarnos a crecer.</p>
         <label for="experiencia">¿Cómo fue tu experiencia en la Web?</label>
         <input id="experiencia" class="swal2-input" type="text">
         <label for="calificacion">¿Cuánto calificarías del 1 al 10 la atención del Especialista?</label>
@@ -195,6 +204,7 @@ export class TablaTurnosComponent implements OnInit {
       `,
       showCancelButton: true,
       confirmButtonText: 'Enviar',
+      confirmButtonColor: '#3c5ebc',
       cancelButtonText: 'Cancelar',
       preConfirm: () => {
         const experiencia = (document.getElementById('experiencia') as HTMLInputElement).value;
@@ -234,6 +244,7 @@ export class TablaTurnosComponent implements OnInit {
       inputPlaceholder: 'Escribí tu comentario acá...',
       showCancelButton: true,
       confirmButtonText: 'Enviar comentario',
+      confirmButtonColor: '#3c5ebc',
       cancelButtonText: 'Cerrar'
     }).then((result) => {
       if (result.isConfirmed) {
@@ -255,6 +266,7 @@ export class TablaTurnosComponent implements OnInit {
       inputPlaceholder: 'Escribí tu comentario acá...',
       showCancelButton: true,
       confirmButtonText: 'Rechazar turno',
+      confirmButtonColor: '#3c5ebc',
       cancelButtonText: 'Cerrar'
     }).then((result) => {
       if (result.isConfirmed) {
@@ -281,6 +293,7 @@ export class TablaTurnosComponent implements OnInit {
       inputPlaceholder: 'Escribir acá...',
       showCancelButton: true,
       confirmButtonText: 'Finalizar turno',
+      confirmButtonColor: '#3c5ebc',
       cancelButtonText: 'Cerrar'
     }).then((result) => {
       if (result.isConfirmed) {

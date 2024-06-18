@@ -37,6 +37,9 @@ export class NavbarComponent{
   irASobreMi() {
     this.router.navigate(['/sobre-mi']);
   }
+  irAMiPerfil() {
+    this.router.navigate(['/mi-perfil']);
+  }
 
   cerrarSesion() {
     this.loader.show();

@@ -1,5 +1,5 @@
 export class Turno {
-  idTurno: string;
+  idTurno?: string;
   idPaciente: string;
   idEspecialista: string;
   especialidad: string;
@@ -9,9 +9,9 @@ export class Turno {
   diagnostico: string;
   encuesta: any[];
   estado: string;
-
+  fecha: any;
+  
   constructor(
-    idTurno: string,
     idPaciente: string,
     idEspecialista: string,
     especialidad: string,
@@ -21,8 +21,9 @@ export class Turno {
     diagnostico: string,
     encuesta: any[],
     estado: string,
+    fecha: any,
+    idTurno?: string
   ) {
-    this.idTurno = idTurno;
     this.idPaciente = idPaciente;
     this.idEspecialista = idEspecialista;
     this.especialidad = especialidad;
@@ -32,5 +33,7 @@ export class Turno {
     this.diagnostico = diagnostico;
     this.encuesta = encuesta;
     this.estado = estado;
+    this.fecha = fecha;
+    this.idTurno = idTurno;
   }
 }

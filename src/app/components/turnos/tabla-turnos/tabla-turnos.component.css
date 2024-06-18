@@ -43,15 +43,17 @@ th, td {
 }
 
 .grupo {
+  width: 36vh;
   background-color: #bdd3f8;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
   padding: 12px;
+  font-size: 25px;
   border-radius: 10px;
-    h3 {
-      color: #3c5ebc;
-    }
+  h3 {
+    color: #3c5ebc;
+  }
 }
 
 .tdBoton {
@@ -110,4 +112,23 @@ button {
 
 #saso {
   color:red;
+}
+
+label {
+  margin-left: 5px;
+  display: inline-block;
+  cursor: pointer;
+  width: 84%;
+  transition: background-color 0.3s;
+  border-radius: 10px;
+  padding-left: 8px;
+}
+label:hover {
+  background-color: #3c5ebc;
+  color: #fff;
+}
+input[type="checkbox"]:checked + label {
+  background-color: #3c5ebc;
+  color: #fff;
+  border-radius: 10px;
 }

@@ -126,6 +126,7 @@ export class FirestoreUsuariosService {
           doc.especialidad,
           doc.imagenPerfil,
           doc.estado,
+          doc.disponibilidad,
           id
         );
         case 'Administrador':
@@ -162,8 +163,8 @@ export class FirestoreUsuariosService {
 
     try {
       const userDocRef = doc(this.firestore, `${this.PATH}/${usuario.id}`);
-      await updateDoc(userDocRef, { estado: usuario.estado });
-      console.log('Estado modificado correctamente en la BD');
+      await updateDoc(userDocRef, { estado: usuario.estado, disponibilidad: usuario.disponibilidad });
+      console.log('Modificado correctamente en la BD');
     } catch (error) {
       console.error('Error actualizando usuario en Firestore:', error);
     }

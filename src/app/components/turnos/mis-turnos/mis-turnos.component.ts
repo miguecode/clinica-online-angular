@@ -22,12 +22,10 @@ export class MisTurnosComponent implements OnInit{
     private authService: AuthService, 
     private usuarioService: FirestoreUsuariosService,
     private loader: LoaderService,
-    private turnosService: TurnosService,
   ) {}
 
   ngOnInit(): void {
     this.getUsuarioActual();
-    // this.cargarTurnos();
   }
 
   async getUsuarioActual() {
@@ -45,16 +43,4 @@ export class MisTurnosComponent implements OnInit{
     }
   }
 
-  /*
-  async cargarTurnos() {
-    this.loader.show();
-    try {
-      this.turnos = await this.turnosService.getTurnos();
-    } catch (error) {
-      console.error('Error obteniendo turnos:', error);
-    } finally {
-      this.loader.hide();
-      console.log(this.turnos);
-    }
-  }*/
 }

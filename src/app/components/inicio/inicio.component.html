@@ -5,11 +5,13 @@
   <div class="botones">
     @if (usuarioActual?.perfil === 'Administrador') {
       <button (click)="irAGestionDeUsuarios()">Gestión de Usuarios</button>
-    }
-    @if (usuarioActual?.perfil === 'Paciente' || usuarioActual?.perfil === 'Especialista') {
-      <button (click)="irAMisTurnos()">Mis Turnos</button>
-    } @else if (usuarioActual?.perfil === 'Administrador') {
       <button (click)="irAMisTurnos()">Turnos</button>
+      <button (click)="irAAltaTurno()">Asignar Turno</button>
+    } @else if (usuarioActual?.perfil === 'Paciente') {
+      <button (click)="irAMisTurnos()">Mis Turnos</button>
+      <button (click)="irAAltaTurno()">Solicitar Turno</button>
+    } @else if (usuarioActual?.perfil === 'Especialista') {
+      <button (click)="irAMisTurnos()">Mis Turnos</button>
     }
   </div>
 </div>

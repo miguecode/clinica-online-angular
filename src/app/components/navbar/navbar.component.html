@@ -6,10 +6,9 @@
   }
 
   <nav class="navbar">
-    <!-- <a (click)="irAListadoPublico()">Listado Público</a> -->
-    
     @if (isLoggedIn) {
       <a (click)="irAInicio()">Inicio</a>
+      <a (click)="irAMiPerfil()">Mi Perfil</a>
       <a (click)="cerrarSesion()">Cerrar Sesión</a>
       } @else {
       <a (click)="irABienvenido()">Inicio</a>

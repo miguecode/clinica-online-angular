@@ -19,7 +19,6 @@ export class TurnosService {
 
   convertirATurno(doc: any, id: string): Turno {
     return new Turno(
-      id,
       doc.idPaciente,
       doc.idEspecialista,
       doc.especialidad,
@@ -28,13 +27,16 @@ export class TurnosService {
       doc.comentario,
       doc.diagnostico,
       doc.encuesta,
-      doc.estado
+      doc.estado,
+      doc.fecha,
+      id
     );
   }
+  
 
   async agregarTurno(turno: Turno): Promise<void> {
     const col = collection(this.firestore, this.PATH);
-    await addDoc(col, {
+    const docRef = await addDoc(col, {
       idPaciente: turno.idPaciente,
       idEspecialista: turno.idEspecialista,
       especialidad: turno.especialidad,
@@ -43,8 +45,11 @@ export class TurnosService {
       comentario: turno.comentario,
       diagnostico: turno.diagnostico,
       encuesta: turno.encuesta,
-      estado: turno.estado
+      estado: turno.estado,
+      fecha: turno.fecha,
     });
+
+    turno.idTurno = docRef.id; // Guardo el ID generado por Firestore en el objeto Turno
   }
 
   async modificarTurno(turno: Turno): Promise<void> {
@@ -63,6 +68,7 @@ export class TurnosService {
         comentario: turno.comentario,
         diagnostico: turno.diagnostico,
         encuesta: turno.encuesta,
+        fecha: turno.fecha,
       });
       console.log('Turno modificado correctamente en la BD');
     } catch (error) {

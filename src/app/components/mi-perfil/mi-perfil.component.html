@@ -1,0 +1,39 @@
+<div class="contenedor">
+  <h1>Mi Perfil</h1>
+  <br>
+  @if (usuario !== undefined) {
+    <div class="contenedor-dentro">
+      
+      <div class="contenedor-imagenes">
+        @if (usuario.perfil == 'Paciente') {
+          <img [src]="usuario.imagenUno">
+          <img [src]="usuario.imagenDos">
+        } @else {
+          <img [src]="usuario.imagenPerfil">
+        }
+      </div>
+
+      <div class="contenedor-datos">
+        <p><span>Perfil: </span>{{ usuario?.perfil }}</p>
+        <p><span>Nombre: </span>{{ usuario?.nombre }}</p>
+        <p><span>Apellido:</span> {{ usuario?.apellido }}</p>
+        <p><span>Correo: </span>{{ usuario?.correo }}</p>
+        <p><span>DNI: </span>{{usuario?.dni }}</p>
+        <p><span>Edad: </span>{{ usuario?.edad }}</p>
+        @if (usuario.perfil == 'Paciente') {
+          <p><span>Obra Social: </span>{{ usuario?.obraSocial }}</p>
+        } @else if (usuario.perfil == 'Especialista') {
+          <p><span>Disponibilidad: </span>{{ usuario?.disponibilidad | disponibilidad }}</p>
+          <button (click)="mostrarHorariosClick()">Configurar Disponibilidad Horaria</button>
+        }
+      </div>
+    </div>
+  }
+
+  @if (mostrarHorarios) {
+    <div class="overlay">
+      <app-mostrar-horarios (horariosSeleccionados)="recibirHorariosSeleccionados($event)" 
+      (cerrarMostrarHorarios)="cerrarMostrarHorarios()"></app-mostrar-horarios>
+    </div>
+  }
+</div>

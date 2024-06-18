@@ -49,22 +49,21 @@
     <table>
       <thead>
         <tr>
-          <th>ID</th>
+          <!-- <th>ID</th> -->
           <th>Especialidad</th>
           <th>Especialista</th>
+          <th>Fecha</th>
           <th>Estado</th>
           <th>Acciones</th>
-          <!-- <th>Ver Reseña</th>
-          <th>Completar Encuesta</th>
-          <th>Calificar Atención</th> -->
         </tr>
       </thead>
       <tbody>
         @for (turno of turnosFiltrados; track turno) {
           <tr>
-            <td>{{ turno.idTurno }}</td>
+            <!-- <td>{{ turno.idTurno }}</td> -->
             <td>{{ turno.especialidad }}</td>
             <td>{{ turno.apellidoEspecialista }}</td>
+            <td>{{ turno.fecha | fecha }}</td>
             <td>{{ turno.estado }}</td>
 
             @if (turno.estado !== 'Cancelado' && turno.estado !== 'Realizado' && turno.estado !== 'Rechazado') {
@@ -94,9 +93,10 @@
     <table>
       <thead>
         <tr>
-          <th>ID</th>
+          <!-- <th>ID</th> -->
           <th>Especialidad</th>
           <th>Paciente</th>
+          <th>Fecha</th>
           <th>Estado</th>
           <th>Acciones</th>
         </tr>
@@ -104,9 +104,10 @@
       <tbody>
         @for (turno of turnosFiltrados; track turno) {
           <tr>
-            <td>{{ turno.idTurno }}</td>
+            <!-- <td>{{ turno.idTurno }}</td> -->
             <td>{{ turno.especialidad }}</td>
             <td>{{ turno.apellidoPaciente }}</td>
+            <td>{{ turno.fecha | fecha }}</td>
             <td>{{ turno.estado }}</td>
 
             @if (turno.estado !== 'Cancelado' && turno.estado !== 'Realizado') {
@@ -140,10 +141,11 @@
     <table>
       <thead>
         <tr>
-          <th>ID</th>
+          <!-- <th>ID</th> -->
           <th>Especialidad</th>
           <th>Especialista</th>
           <th>Paciente</th>
+          <th>Fecha</th>
           <th>Estado</th>
           <th>Acciones</th>
         </tr>
@@ -151,10 +153,11 @@
       <tbody>
         @for (turno of turnosFiltrados; track turno) {
           <tr>
-            <td>{{ turno.idTurno }}</td>
+            <!-- <td>{{ turno.idTurno }}</td> -->
             <td>{{ turno.especialidad }}</td>
             <td>{{ turno.apellidoEspecialista }}</td>
             <td>{{ turno.apellidoPaciente }}</td>
+            <td>{{ turno.fecha | fecha}}</td>
             <td>{{ turno.estado }}</td>
 
             @if (turno.estado === 'Pendiente') {

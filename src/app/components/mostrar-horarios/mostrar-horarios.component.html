@@ -1,0 +1,57 @@
+<div class="contenedor-horarios">
+  <h3>Seleccionar día de la semana</h3>
+
+  <div class="contenedor-dias">
+    @for (dia of dias; track dia) {
+      <button class="btnDia" 
+        (click)="seleccionarDia(dia)"
+        [class.seleccionado]="diaSeleccionado === dia">
+        {{ dia }}
+      </button>
+    }
+  </div>
+
+  <div class="contenedor-horarios-disponibles">
+    @if (diaSeleccionado) {
+      <div>
+        <h3>Seleccionar horario para los días {{ diaSeleccionado }}</h3>
+        <div class="contenedor-horas">
+          @for (horario of obtenerHorariosDisponibles(diaSeleccionado); track horario) {
+            <button class="btnHora" 
+              (click)="toggleHorarioSeleccionado(horario)"
+              [class.seleccionado]="isHorarioSeleccionado(horario)">
+              {{ horario }}
+            </button>
+          }
+        </div>
+
+        <p>Horarios seleccionados: {{ horasSeleccionadas[diaSeleccionado].join(', ') }}</p>
+
+        <div class="botones">
+          <button class="boton" (click)="agregarHorarios()">Agregar</button>
+          <button class="boton" (click)="cancelarHorarios()">Cancelar</button>
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (!diaSeleccionado) {
+    @if (horarios && getHorariosKeys().length > 0) {
+      <div class="horarios-agregados">
+        <h3>Horarios agregados:</h3>
+        <ul>
+          @for (key of getHorariosKeys(); track key) {
+            <li>{{ key }}: {{ horarios[key].join(', ') }}</li>
+          }
+        </ul>
+      </div>
+    }
+
+    <div class="botones">
+      @if (horarios && getHorariosKeys().length > 0) {
+        <button (click)="guardarCambios()" class="boton">Guardar cambios</button>
+      }
+      <button class="boton" (click)="cerrar()">Salir</button>
+    </div>
+  }
+</div>

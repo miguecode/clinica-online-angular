@@ -13,6 +13,7 @@
     <form [formGroup]="obtenerFormularioActivo()">
       @if (formActivo === 'Paciente') {
         <!-- Formulario de Paciente -->
+        <!-- <re-captcha (resolved)="resolved($event)" siteKey="6LfMTPspAAAAACHfUnDTdRazvSIsrcDKkROWpdcq"></re-captcha> -->
 
          <div class="linea">
           <div class="input-box">
@@ -201,19 +202,8 @@
           </div>
         </div>
   
-  
-        <div class="linea">
-          <!-- <div class="input-box">
-            <input formControlName="especialidad" type="text" class="form-control" placeholder="Especialidad">
-            @if (formEspecialista.get('especialidad'); as aux) {
-              @if (aux.invalid && (aux.dirty)) {
-                <div class="alert hide alert-danger" role="alert">
-                  {{ aux.hasError("required") ? "La especialidad es obligatoria" : "Especialidad no válida" }}
-                </div>
-              }
-            }
-          </div> -->
 
+        <div class="linea">
           <button class="btn" (click)="mostrarEspecialidadesClick()">Seleccionar Especialidades</button>
           
           <div *ngIf="mostrarEspecialidades" class="overlay">
@@ -336,8 +326,14 @@
         <p class="mensaje" [ngClass]="{'error': error}" id="mensaje"> {{ mensaje }} </p>
       </div>
       <br>
+
+      <div class="linea">
+        <re-captcha (resolved)="resolved($event)" siteKey="6LdPWfspAAAAAKZFSQMNiWBTB8h5R_FEBYhLesV8"></re-captcha>
+      </div>
+
       <div class="botones">
-        <button type="button" class="btn" (click)="registrar()" [disabled]="(obtenerFormularioActivo()).invalid">
+        <button type="button" class="btn" (click)="registrar()"
+         [disabled]="(obtenerFormularioActivo()).invalid || !captchaResolved">
           Crear Cuenta
         </button>
         

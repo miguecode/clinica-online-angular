@@ -14,12 +14,14 @@ import { MensajeConfirmacionComponent } from '../mensaje-confirmacion/mensaje-co
 import { Administrador } from '../../classes/administrador';
 import { EspecialidadesService } from '../../services/especialidades.service';
 import { EspecialidadesComponent } from '../especialidades/especialidades.component';
+import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-registro',
   standalone: true,
   imports: [FormsModule, RouterModule, NgClass, InicioComponent,
-           ReactiveFormsModule, CommonModule, MensajeConfirmacionComponent,EspecialidadesComponent],
+    ReactiveFormsModule, CommonModule, MensajeConfirmacionComponent,EspecialidadesComponent,
+    RecaptchaModule, RecaptchaFormsModule],
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.css']
 })
@@ -35,7 +37,7 @@ export class RegistroComponent implements OnInit {
   especialidades: string[] = [];
   mostrarEspecialidades: boolean = false;
   especialidadesSeleccionadas: string[] = [];
-
+  captchaResolved: boolean = false;
 
   constructor(
     private authService: AuthService, 
@@ -120,6 +122,11 @@ export class RegistroComponent implements OnInit {
 
   // Función de registrar un nuevo usuario
   async registrar() {
+    if (!this.captchaResolved) {
+      console.error('El captcha no está resuelto');
+      return;
+    }
+
     try {
       let form = null;
       if (this.formActivo === 'Paciente') {
@@ -151,6 +158,7 @@ export class RegistroComponent implements OnInit {
       if (this.formActivo === 'Paciente') {
         const imagen1URL = await this.uploadImage(datos.imagenUno);
         const imagen2URL = await this.uploadImage(datos.imagenDos);
+
         usuario = new Paciente(
           datos.correo.toLowerCase(),
           'Paciente',
@@ -173,7 +181,8 @@ export class RegistroComponent implements OnInit {
           datos.dni,
           this.especialidadesSeleccionadas,
           imagenURL,
-          'Inhabilitado'
+          'Inhabilitado',
+          { ['Dia']: ['Hora'] },
         );
       } else {
         const imagenURL = await this.uploadImage(datos.imagenAdmin);
@@ -295,5 +304,10 @@ export class RegistroComponent implements OnInit {
   // Función que cierra el componente de especialidades
   cerrarEspecialidades() {
     this.mostrarEspecialidades = false;
+  }
+
+  resolved(captchaResponse: string | null) {
+    console.log(`Resolved captcha with response: ${captchaResponse}`);
+    this.captchaResolved = captchaResponse !== null;
   }
 }

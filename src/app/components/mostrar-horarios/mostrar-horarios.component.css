@@ -1,0 +1,87 @@
+.contenedor-horarios {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  gap: 10px;
+}
+
+.contenedor-horas {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 830px;
+  gap: 5px;
+  background-color: #bdd3f8;
+  padding: 6px;
+  border-radius: 5px;
+}
+.btnHora {
+  background-color: #bdd3f8;
+  color: #3c5ebc;
+  border: none;
+  border-radius: 5px;
+  padding: 7px;
+  font-size: 20px;
+  transition: 0.2s;
+}
+.btnHora:hover {
+  background-color: #3c5ebc;
+  color: #fff;
+}
+
+.contenedor-dias {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  background-color: #bdd3f8;
+  padding: 6px;
+  border-radius: 5px;
+}
+.btnDia {
+  background-color: #bdd3f8;
+  color: #3c5ebc;
+  border: none;
+  border-radius: 5px;
+  padding: 7px;
+  font-size: 25px;
+  transition: 0.2s;
+}
+.btnDia:hover {
+  background-color: #3c5ebc;
+  color: #fff;
+}
+
+
+
+.botones {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.boton {
+  margin-top: 20px;
+  background: #fff;
+  border: none;
+  outline: none;
+  padding: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 25px;
+  color: #0e0e0e;
+  font-weight: 600;
+  transition: 0.2s;
+  width: 300px;
+}
+.boton:hover {
+  background-color:#0e0e0e;
+  color: #fff;
+}
+
+.seleccionado {
+  background-color: #3c5ebc;
+  color: #fff;
+}

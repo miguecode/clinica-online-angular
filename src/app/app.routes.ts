@@ -3,6 +3,7 @@ import { logeadoGuard } from './guards/logeado.guard';
 import { noLoginGuard } from './guards/no-login.guard';
 import { adminGuard } from './guards/admin.guard';
 import { noLoginSiAdminGuard } from './guards/no-login-si-admin.guard';
+import { noEspecialistaGuard } from './guards/no-especialista.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'bienvenido', pathMatch: 'full' },
@@ -10,6 +11,10 @@ export const routes: Routes = [
     path: 'bienvenido',
     loadComponent: () => import('./components/bienvenido/bienvenido.component').then(m => m.BienvenidoComponent),
     canActivate: [noLoginGuard]
+  },
+  {
+    path: 'sobre-mi',
+    loadComponent: () => import('./components/datos-github/datos-github.component').then(m => m.DatosGithubComponent),
   },
   {
     path: 'login',
@@ -27,8 +32,9 @@ export const routes: Routes = [
     canActivate: [logeadoGuard]
   },
   {
-    path: 'sobre-mi',
-    loadComponent: () => import('./components/datos-github/datos-github.component').then(m => m.DatosGithubComponent),
+    path: 'mi-perfil',
+    loadComponent: () => import('./components/mi-perfil/mi-perfil.component').then(m => m.MiPerfilComponent),
+    canActivate: [logeadoGuard]
   },
   {
     path: 'gestion-usuarios',
@@ -39,6 +45,11 @@ export const routes: Routes = [
     path: 'mis-turnos',
     loadComponent: () => import('./components/turnos/mis-turnos/mis-turnos.component').then(m => m.MisTurnosComponent),
     canActivate: [logeadoGuard]
+  },
+  {
+    path: 'alta-turno',
+    loadComponent: () => import('./components/turnos/alta-turno/alta-turno.component').then(m => m.AltaTurnoComponent),
+    canActivate: [logeadoGuard, noEspecialistaGuard]
   },
   {
     path: '**',
