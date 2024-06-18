@@ -9,9 +9,10 @@
 
 ## 🛠️ Herramientas usadas
 - Angular
-- TypeScript, HTML, CSS, SweetAlert2
+- TypeScript, HTML, CSS
 - Firebase
 - reCaptcha
+- SweetAlert2
 
 ## 🌟 ¿De qué se trata el proyecto?
 Se trata de una **aplicación web SPA** (Single Page Application) hecha con el **framework Angular**, que funciona gracias a los servicios de **Google Firebase**. La página simula ser una **Clínica Online**, con acceso a distintos tipos de usuarios: **Administradores, Especialistas y Pacientes**. La idea principal es que un paciente sea capaz de **solicitar su propio turno**, seleccionando el día y la hora disponibles, y que sea de la especialidad que él quiera (Pediatría, Odontología, Kinesiología, entre otras). 
