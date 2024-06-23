@@ -16,7 +16,7 @@ import { FechaPipe } from '../../../pipes/fecha.pipe';
   standalone: true,
   imports: [FechaPipe],
   templateUrl: './tabla-turnos.component.html',
-  styleUrls: ['./tabla-turnos.component.css']
+  styleUrls: ['./tabla-turnos.component.css'],
 })
 export class TablaTurnosComponent implements OnInit {
   @Input() usuarioActual: Usuario | undefined = undefined;
@@ -36,34 +36,35 @@ export class TablaTurnosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-  this.loader.show();
+    this.loader.show();
 
-  this.cargarTurnos()
-    .then(() => {
-      const promesas: Promise<any>[] = [];
-      if (this.usuarioActual instanceof Paciente || this.usuarioActual instanceof Administrador) {
-        promesas.push(this.cargarEspecialidades());
-        promesas.push(this.cargarEspecialistas());
-      } else if (this.usuarioActual instanceof Especialista) {
-        promesas.push(this.cargarPacientes());
-        this.especialidades = this.usuarioActual.especialidad;
-      }
-      
+    this.cargarTurnos()
+      .then(() => {
+        const promesas: Promise<any>[] = [];
+        if (
+          this.usuarioActual instanceof Paciente ||
+          this.usuarioActual instanceof Administrador
+        ) {
+          promesas.push(this.cargarEspecialidades());
+          promesas.push(this.cargarEspecialistas());
+        } else if (this.usuarioActual instanceof Especialista) {
+          promesas.push(this.cargarPacientes());
+          this.especialidades = this.usuarioActual.especialidad;
+        }
 
-
-      return Promise.all(promesas); // Espero a que todas las promesas se resuelvan
-    })
-    .catch(error => {
-      console.error('Error durante la inicialización:', error);
-    })
-    .finally(() => {
-      console.log(this.turnos);
-      console.log(this.especialidades);
-      console.log(this.especialistas);
-      console.log(this.pacientes);
-      this.loader.hide();
-    });
-}
+        return Promise.all(promesas); // Espero a que todas las promesas se resuelvan
+      })
+      .catch((error) => {
+        console.error('Error durante la inicialización:', error);
+      })
+      .finally(() => {
+        console.log(this.turnos);
+        console.log(this.especialidades);
+        console.log(this.especialistas);
+        console.log(this.pacientes);
+        this.loader.hide();
+      });
+  }
 
   async cargarTurnos() {
     try {
@@ -71,9 +72,10 @@ export class TablaTurnosComponent implements OnInit {
 
       // Filtro que los turnos sean propios del usuario (si no es administrador)
       if (this.usuarioActual?.perfil !== 'Administrador') {
-        this.turnos = this.turnos.filter(turno =>
-          turno.apellidoPaciente === this.usuarioActual?.apellido ||
-          turno.apellidoEspecialista === this.usuarioActual?.apellido
+        this.turnos = this.turnos.filter(
+          (turno) =>
+            turno.apellidoPaciente === this.usuarioActual?.apellido ||
+            turno.apellidoEspecialista === this.usuarioActual?.apellido
         );
       }
     } catch (error) {
@@ -83,8 +85,13 @@ export class TablaTurnosComponent implements OnInit {
 
   async cargarEspecialistas() {
     try {
-      const usuarios = await this.usuarioService.obtenerUsuariosPorPerfil('Especialista', 99);
-      this.especialistas = usuarios.filter(user => user instanceof Especialista) as Especialista[];
+      const usuarios = await this.usuarioService.obtenerUsuariosPorPerfil(
+        'Especialista',
+        99
+      );
+      this.especialistas = usuarios.filter(
+        (user) => user instanceof Especialista
+      ) as Especialista[];
     } catch (error) {
       console.error('Error obteniendo especialistas:', error);
     }
@@ -92,8 +99,13 @@ export class TablaTurnosComponent implements OnInit {
 
   async cargarPacientes() {
     try {
-      const usuarios = await this.usuarioService.obtenerUsuariosPorPerfil('Paciente', 99);
-      this.pacientes = usuarios.filter(user => user instanceof Paciente) as Paciente[];
+      const usuarios = await this.usuarioService.obtenerUsuariosPorPerfil(
+        'Paciente',
+        99
+      );
+      this.pacientes = usuarios.filter(
+        (user) => user instanceof Paciente
+      ) as Paciente[];
     } catch (error) {
       console.error('Error obteniendo pacientes:', error);
     }
@@ -101,7 +113,8 @@ export class TablaTurnosComponent implements OnInit {
 
   async cargarEspecialidades() {
     try {
-      this.especialidades = await this.especialidadesService.getEspecialidades();
+      this.especialidades =
+        await this.especialidadesService.getEspecialidadesNombres();
     } catch (error) {
       console.error('Error obteniendo especialidades:', error);
     }
@@ -109,15 +122,24 @@ export class TablaTurnosComponent implements OnInit {
 
   // Función que devuelve un array con los turnos que pasen el filtro de los Checkbox
   get turnosFiltrados() {
-    if (this.usuarioActual?.perfil === 'Paciente' || this.usuarioActual?.perfil === 'Administrador') {
-      return this.turnos.filter(turno =>
-        (this.especialidadSeleccionada.length === 0 || this.especialidadSeleccionada.includes(turno.especialidad)) &&
-        (this.especialistaSeleccionado.length === 0 || this.especialistaSeleccionado.includes(turno.apellidoEspecialista))
+    if (
+      this.usuarioActual?.perfil === 'Paciente' ||
+      this.usuarioActual?.perfil === 'Administrador'
+    ) {
+      return this.turnos.filter(
+        (turno) =>
+          (this.especialidadSeleccionada.length === 0 ||
+            this.especialidadSeleccionada.includes(turno.especialidad)) &&
+          (this.especialistaSeleccionado.length === 0 ||
+            this.especialistaSeleccionado.includes(turno.apellidoEspecialista))
       );
     } else {
-      return this.turnos.filter(turno =>
-        (this.especialidadSeleccionada.length === 0 || this.especialidadSeleccionada.includes(turno.especialidad)) &&
-        (this.pacienteSeleccionado.length === 0 || this.pacienteSeleccionado.includes(turno.apellidoPaciente))
+      return this.turnos.filter(
+        (turno) =>
+          (this.especialidadSeleccionada.length === 0 ||
+            this.especialidadSeleccionada.includes(turno.especialidad)) &&
+          (this.pacienteSeleccionado.length === 0 ||
+            this.pacienteSeleccionado.includes(turno.apellidoPaciente))
       );
     }
   }
@@ -129,19 +151,25 @@ export class TablaTurnosComponent implements OnInit {
       if (isChecked) {
         this.especialidadSeleccionada.push(valor);
       } else {
-        this.especialidadSeleccionada = this.especialidadSeleccionada.filter(especialidad => especialidad !== valor);
+        this.especialidadSeleccionada = this.especialidadSeleccionada.filter(
+          (especialidad) => especialidad !== valor
+        );
       }
     } else if (tipo === 'especialista') {
       if (isChecked) {
         this.especialistaSeleccionado.push(valor);
       } else {
-        this.especialistaSeleccionado = this.especialistaSeleccionado.filter(especialista => especialista !== valor);
+        this.especialistaSeleccionado = this.especialistaSeleccionado.filter(
+          (especialista) => especialista !== valor
+        );
       }
     } else if (tipo === 'paciente') {
       if (isChecked) {
         this.pacienteSeleccionado.push(valor);
       } else {
-        this.pacienteSeleccionado = this.pacienteSeleccionado.filter(paciente => paciente !== valor);
+        this.pacienteSeleccionado = this.pacienteSeleccionado.filter(
+          (paciente) => paciente !== valor
+        );
       }
     }
   }
@@ -155,7 +183,7 @@ export class TablaTurnosComponent implements OnInit {
       showCancelButton: true,
       confirmButtonText: 'Confirmar cancelación',
       confirmButtonColor: '#3c5ebc',
-      cancelButtonText: 'Cerrar'
+      cancelButtonText: 'Cerrar',
     }).then((result) => {
       if (result.isConfirmed) {
         const comentario = result.value;
@@ -179,7 +207,7 @@ export class TablaTurnosComponent implements OnInit {
       htmlContent += `<br><h4>Diagnóstico</h4>
       <textarea class="swal2-textarea" readonly>${turno.diagnostico}</textarea>`;
     }
-  
+
     Swal.fire({
       title: 'Reseña del Turno',
       html: htmlContent,
@@ -189,7 +217,7 @@ export class TablaTurnosComponent implements OnInit {
       confirmButtonColor: '#3c5ebc',
     });
   }
-  
+
   completarEncuesta(turno: Turno) {
     Swal.fire({
       title: 'Completar Encuesta',
@@ -207,45 +235,46 @@ export class TablaTurnosComponent implements OnInit {
       confirmButtonColor: '#3c5ebc',
       cancelButtonText: 'Cancelar',
       preConfirm: () => {
-        const experiencia = (document.getElementById('experiencia') as HTMLInputElement).value;
-        const calificacion = (document.getElementById('calificacion') as HTMLInputElement).value;
-        const consejo = (document.getElementById('consejo') as HTMLInputElement).value;
-  
+        const experiencia = (
+          document.getElementById('experiencia') as HTMLInputElement
+        ).value;
+        const calificacion = (
+          document.getElementById('calificacion') as HTMLInputElement
+        ).value;
+        const consejo = (document.getElementById('consejo') as HTMLInputElement)
+          .value;
+
         if (!experiencia || !calificacion || !consejo) {
           Swal.showValidationMessage('Por favor, completá todos los campos');
           return null;
         }
-  
+
         return { experiencia, calificacion, consejo };
-      }
+      },
     }).then((result) => {
       if (result.isConfirmed) {
         const { experiencia, calificacion, consejo } = result.value!;
         console.log('Experiencia en la Web:', experiencia);
         console.log('Calificación de la atención:', calificacion);
         console.log('Consejo para mejorar:', consejo);
-  
-        turno.encuesta = [
-          experiencia,
-          calificacion,
-          consejo
-        ];
+
+        turno.encuesta = [experiencia, calificacion, consejo];
         this.turnosService.modificarTurno(turno);
       }
     });
   }
-  
 
   calificarAtencion(turno: Turno) {
     Swal.fire({
       title: 'Calificar Atención',
       input: 'textarea',
-      inputLabel: 'Contanos tu experiencia siendo atendido por este Especialista.',
+      inputLabel:
+        'Contanos tu experiencia siendo atendido por este Especialista.',
       inputPlaceholder: 'Escribí tu comentario acá...',
       showCancelButton: true,
       confirmButtonText: 'Enviar comentario',
       confirmButtonColor: '#3c5ebc',
-      cancelButtonText: 'Cerrar'
+      cancelButtonText: 'Cerrar',
     }).then((result) => {
       if (result.isConfirmed) {
         const comentario = result.value;
@@ -267,7 +296,7 @@ export class TablaTurnosComponent implements OnInit {
       showCancelButton: true,
       confirmButtonText: 'Rechazar turno',
       confirmButtonColor: '#3c5ebc',
-      cancelButtonText: 'Cerrar'
+      cancelButtonText: 'Cerrar',
     }).then((result) => {
       if (result.isConfirmed) {
         const comentario = result.value;
@@ -294,7 +323,7 @@ export class TablaTurnosComponent implements OnInit {
       showCancelButton: true,
       confirmButtonText: 'Finalizar turno',
       confirmButtonColor: '#3c5ebc',
-      cancelButtonText: 'Cerrar'
+      cancelButtonText: 'Cerrar',
     }).then((result) => {
       if (result.isConfirmed) {
         const comentario = result.value;

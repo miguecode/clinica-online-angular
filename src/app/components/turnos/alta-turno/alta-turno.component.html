@@ -1,62 +1,114 @@
 <div class="contenedor">
-  @if (usuarioActual?.perfil === 'Paciente') {
-    <h1>Solicitar Turno</h1>
+  <!-- @if (usuarioActual?.perfil === 'Paciente') {
+  <h1>Solicitar Turno</h1>
   } @else if (usuarioActual?.perfil === 'Administrador') {
-    <h1>Asignar Turno</h1>
-  }
+  <h1>Asignar Turno</h1>
+  } -->
 
   <form [formGroup]="formulario" (ngSubmit)="confirmar()">
     <div class="linea">
-
       <div class="grupo">
         <h3>Especialidades</h3>
         @for (especialidad of especialidades; track especialidad) {
-          <div>
-            <input type="radio" id="especialidad-{{ especialidad }}"
-             formControlName="especialidad" [value]="especialidad" (change)="onEspecialidadChange()">
-            <label for="especialidad-{{ especialidad }}">{{ especialidad }}</label>
-          </div>
+        <button
+          type="button"
+          (click)="
+            formulario.get('especialidad')?.setValue(especialidad);
+            onEspecialidadChange()
+          "
+          [class.selected]="
+            formulario.get('especialidad')?.value === especialidad
+          "
+        >
+          <img
+            [src]="especialidad.foto"
+            alt="{{ especialidad.nombre }}"
+            class="especialidad-foto"
+          />
+          <span>{{ especialidad.nombre }}</span>
+        </button>
         }
       </div>
 
       <div class="grupo">
         <h3>Especialistas</h3>
         @for (especialista of especialistasFiltrados; track especialista) {
-          <div>
-            <input type="radio" id="especialista-{{ especialista.apellido }}"
-             formControlName="especialista" [value]="especialista" (change)="onEspecialistaChange()">
-            <label for="especialista-{{ especialista.apellido }}">{{ especialista.apellido }}</label>
-          </div>
+        <button
+          type="button"
+          (click)="
+            formulario.get('especialista')?.setValue(especialista);
+            onEspecialistaChange()
+          "
+          [class.selected]="
+            formulario.get('especialista')?.value === especialista
+          "
+        >
+          <span>{{ especialista.apellido }}</span>
+          <img [src]="especialista.imagenPerfil" class="especialidad-foto" />
+        </button>
         }
       </div>
 
       @if (usuarioActual?.perfil === 'Administrador') {
-        <div class="grupo">
-          <h3>Pacientes</h3>
-          @for (paciente of pacientes; track paciente) {
-            <div class="radio-container">
-              <input type="radio" id="paciente-{{ paciente.apellido }}"
-               formControlName="paciente" [value]="paciente">
-              <label for="paciente-{{ paciente.apellido }}">{{ paciente.apellido }}</label>
-            </div>
-          }
-        </div>
+      <div class="grupo">
+        <h3>Pacientes</h3>
+        @for (paciente of pacientes; track paciente) {
+        <button
+          type="button"
+          (click)="formulario.get('paciente')?.setValue(paciente)"
+          [class.selected]="formulario.get('paciente')?.value === paciente"
+        >
+          <span>{{ paciente.apellido }}</span>
+        </button>
+        }
+      </div>
       }
 
-      <div class="fechas">
+      <!-- <div class="fechas">
         <h3>Fechas</h3>
         @for (fecha of fechas; track fecha) {
-          <div class="radio-container">
-            <input type="radio" id="fecha-{{ fecha | fecha  }}"
-            formControlName="fecha" [value]="fecha">
-            <label for="fecha-{{ fecha | fecha  }}">{{ fecha | fecha }}</label>
-          </div>
+        <button
+          type="button"
+          (click)="seleccionarFecha(fecha)"
+          [class.selected]="fechaEstaSeleccionada(fecha)"
+        >
+          <span>{{ fecha | fecha }}</span>
+        </button>
+        }
+      </div>
+    </div> -->
+
+      <div class="grupo">
+        <h3>Días</h3>
+        @for (dia of dias; track dia) {
+        <button
+          type="button"
+          (click)="seleccionarDia(dia)"
+          [class.selected]="diaSeleccionado === dia"
+        >
+          <span>{{ dia }}</span>
+        </button>
+        }
+      </div>
+
+      <div class="grupo">
+        <h3>Horas</h3>
+        @for (hora of horasFiltradas; track hora) {
+        <button
+          type="button"
+          (click)="seleccionarHora(hora)"
+          [class.selected]="horaSeleccionada === hora"
+        >
+          <span>{{ hora }}</span>
+        </button>
         }
       </div>
     </div>
 
     <div class="linea">
-      <button type="submit" class="btn" [disabled]="formulario.invalid">Confirmar</button>
+      <button type="submit" class="btn" [disabled]="formulario.invalid">
+        Confirmar
+      </button>
     </div>
   </form>
 </div>

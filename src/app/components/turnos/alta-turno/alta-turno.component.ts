@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { FirestoreUsuariosService } from '../../../services/firestore-usuarios.service';
 import { Usuario } from '../../../classes/usuario';
@@ -12,7 +17,10 @@ import { LoaderService } from '../../../services/loader.service';
 import { FechaPipe } from '../../../pipes/fecha.pipe';
 import { Turno } from '../../../classes/turno';
 import { TurnosService } from '../../../services/turnos.service';
+import { Especialidad } from '../../../classes/especialidad';
 import Swal from 'sweetalert2';
+import { format, addDays, startOfWeek, parseISO } from 'date-fns';
+import { es } from 'date-fns/locale';
 
 @Component({
   selector: 'app-alta-turno',
@@ -25,12 +33,15 @@ import Swal from 'sweetalert2';
 export class AltaTurnoComponent implements OnInit {
   usuarioActual: Usuario | Paciente | Administrador | undefined = undefined;
   formulario: FormGroup;
-  especialidades: string[] = [];
+  especialidades: Especialidad[] = [];
   pacientes: Paciente[] = [];
   especialistas: Especialista[] = [];
   especialistasFiltrados: Especialista[] = [];
-  fechas: { dia: string, hora: string }[] = [];
-  fechaSeleccionada: { dia: string, hora: string } | undefined = undefined;
+  fechas: { dia: string; hora: string }[] = [];
+  dias: string[] = [];
+  horasFiltradas: string[] = [];
+  diaSeleccionado: string | undefined = undefined;
+  horaSeleccionada: string | undefined = undefined;
 
   constructor(
     private fb: FormBuilder,
@@ -39,13 +50,13 @@ export class AltaTurnoComponent implements OnInit {
     private loader: LoaderService,
     private especialidadesService: EspecialidadesService,
     private turnosService: TurnosService,
-    private pipeFechaTS: FechaPipe,
+    private pipeFechaTS: FechaPipe
   ) {
     this.formulario = this.fb.group({
       especialidad: [null, [Validators.required]],
       especialista: [null, [Validators.required]],
       paciente: [null, [Validators.required]],
-      fecha: [null, [Validators.required]]
+      fecha: [null, [Validators.required]],
     });
   }
 
@@ -53,29 +64,32 @@ export class AltaTurnoComponent implements OnInit {
     this.loader.show();
     const promesas: Promise<any>[] = [];
 
-    this.cargarUsuarioActual().then(() => {
-      promesas.push(this.cargarEspecialidades());
-      promesas.push(this.cargarEspecialistas());
+    this.cargarUsuarioActual()
+      .then(() => {
+        promesas.push(this.cargarEspecialidades());
+        promesas.push(this.cargarEspecialistas());
 
-      if (this.usuarioActual?.perfil === 'Administrador') {
-        promesas.push(this.cargarPacientes());
-      }
+        if (this.usuarioActual?.perfil === 'Administrador') {
+          promesas.push(this.cargarPacientes());
+        }
 
-      return Promise.all(promesas);
-    })
-    .catch(error => {
-      console.error('Error en la inicialización:', error);
-    })
-    .finally(() => {
-      this.loader.hide();
-    });
+        return Promise.all(promesas);
+      })
+      .catch((error) => {
+        console.error('Error en la inicialización:', error);
+      })
+      .finally(() => {
+        this.loader.hide();
+      });
   }
 
   async cargarUsuarioActual() {
     try {
       const correo = this.auth.getCurrentUserEmail();
       if (correo) {
-        this.usuarioActual = await this.usuarioService.getUsuarioPorCorreo(correo);
+        this.usuarioActual = await this.usuarioService.getUsuarioPorCorreo(
+          correo
+        );
         if (this.usuarioActual instanceof Paciente) {
           this.formulario.get('paciente')?.setValue(this.usuarioActual);
         }
@@ -87,8 +101,13 @@ export class AltaTurnoComponent implements OnInit {
 
   async cargarEspecialistas() {
     try {
-      const usuarios = await this.usuarioService.obtenerUsuariosPorPerfil('Especialista', 99);
-      this.especialistas = usuarios.filter(user => user instanceof Especialista) as Especialista[];
+      const usuarios = await this.usuarioService.obtenerUsuariosPorPerfil(
+        'Especialista',
+        99
+      );
+      this.especialistas = usuarios.filter(
+        (user) => user instanceof Especialista
+      ) as Especialista[];
     } catch (error) {
       console.error('Error obteniendo especialistas:', error);
     }
@@ -96,8 +115,13 @@ export class AltaTurnoComponent implements OnInit {
 
   async cargarPacientes() {
     try {
-      const usuarios = await this.usuarioService.obtenerUsuariosPorPerfil('Paciente', 99);
-      this.pacientes = usuarios.filter(user => user instanceof Paciente) as Paciente[];
+      const usuarios = await this.usuarioService.obtenerUsuariosPorPerfil(
+        'Paciente',
+        99
+      );
+      this.pacientes = usuarios.filter(
+        (user) => user instanceof Paciente
+      ) as Paciente[];
     } catch (error) {
       console.error('Error obteniendo pacientes:', error);
     }
@@ -105,137 +129,174 @@ export class AltaTurnoComponent implements OnInit {
 
   async cargarEspecialidades() {
     try {
-      this.especialidades = await this.especialidadesService.getEspecialidades();
+      this.especialidades =
+        await this.especialidadesService.getEspecialidades();
     } catch (error) {
       console.error('Error obteniendo especialidades:', error);
     }
   }
 
   onEspecialidadChange() {
-    const especialidadSeleccionada = this.formulario.get('especialidad')?.value;
-    this.especialistasFiltrados = this.especialistas.filter(especialista =>
-      especialista.especialidad.includes(especialidadSeleccionada)
+    const especialidadSeleccionada: Especialidad =
+      this.formulario.get('especialidad')?.value;
+    this.especialistasFiltrados = this.especialistas.filter((especialista) =>
+      especialista.especialidad.includes(especialidadSeleccionada.nombre)
     );
-    
+
     // Si cambio la especialidad, reseteo la selección del especialista
     this.formulario.get('especialista')?.reset();
 
     // Si el especialista es uno sólo, lo selecciono automáticamente
     if (this.especialistasFiltrados.length === 1) {
-      this.formulario.get('especialista')?.setValue(this.especialistasFiltrados[0]);
-      this.fechas = this.descomponerDisponibilidad(this.especialistasFiltrados[0].disponibilidad);
+      this.formulario
+        .get('especialista')
+        ?.setValue(this.especialistasFiltrados[0]);
+      this.fechas = this.descomponerDisponibilidad(
+        this.especialistasFiltrados[0].disponibilidad
+      );
+
+      // Obtener los días únicos de la disponibilidad
+      this.dias = [...new Set(this.fechas.map((fecha) => fecha.dia))];
 
       // Si la fecha es una sola, la selecciono automáticamente
       if (this.fechas.length === 1) {
         this.formulario.get('fecha')?.setValue(this.fechas[0]);
-        this.fechaSeleccionada = this.fechas[0];
+        this.diaSeleccionado = this.fechas[0].dia;
+        this.horaSeleccionada = this.fechas[0].hora;
       }
-
     } else {
       this.fechas = [];
-      this.fechaSeleccionada = undefined;
+      this.dias = [];
+      this.horasFiltradas = [];
+      this.diaSeleccionado = undefined;
+      this.horaSeleccionada = undefined;
     }
   }
 
   onEspecialistaChange() {
-    const especialistaSeleccionado: Especialista = this.formulario.get('especialista')?.value;
+    const especialistaSeleccionado: Especialista =
+      this.formulario.get('especialista')?.value;
+
     if (especialistaSeleccionado) {
-      this.fechas = this.descomponerDisponibilidad(especialistaSeleccionado.disponibilidad);
+      this.fechas = this.descomponerDisponibilidad(
+        especialistaSeleccionado.disponibilidad
+      );
 
-      // Si la fecha es una sola, la selecciono automáticamente
-      if (this.fechas.length === 1) {
-        this.formulario.get('fecha')?.setValue(this.fechas[0]);
-        this.fechaSeleccionada = this.fechas[0];
-      } else {
-        this.formulario.get('fecha')?.setValue(null);
-        this.fechaSeleccionada = undefined;
-      }
+      // Obtener los días únicos de la disponibilidad
+      this.dias = [...new Set(this.fechas.map((fecha) => fecha.dia))];
 
-      console.log(this.fechas);
+      this.diaSeleccionado = undefined;
+      this.horaSeleccionada = undefined;
+      this.horasFiltradas = [];
+    } else {
+      this.fechas = [];
+      this.dias = [];
+      this.horasFiltradas = [];
+      this.diaSeleccionado = undefined;
+      this.horaSeleccionada = undefined;
     }
   }
 
-  descomponerDisponibilidad(disponibilidad: { [key: string]: string[] }): { dia: string, hora: string }[] {
-    const fechas: { dia: string, hora: string }[] = [];
-    Object.keys(disponibilidad).forEach(dia => {
-      disponibilidad[dia].forEach(hora => {
-        fechas.push({ dia, hora });
-      });
+  seleccionarDia(dia: string) {
+    this.diaSeleccionado = dia;
+    this.horasFiltradas = this.fechas
+      .filter((fecha) => fecha.dia === dia)
+      .map((fecha) => fecha.hora);
+
+    // Si hay una sola hora para el día, la selecciono automáticamente
+    if (this.horasFiltradas.length === 1) {
+      this.seleccionarHora(this.horasFiltradas[0]);
+    } else {
+      this.horaSeleccionada = undefined;
+    }
+  }
+
+  seleccionarHora(hora: string) {
+    this.horaSeleccionada = hora;
+
+    this.formulario.get('fecha')?.setValue({
+      dia: this.diaSeleccionado,
+      hora: this.horaSeleccionada,
     });
+  }
+
+  descomponerDisponibilidad(disponibilidad: {
+    [key: string]: string[];
+  }): { dia: string; hora: string }[] {
+    const fechas: { dia: string; hora: string }[] = [];
+    for (const dia in disponibilidad) {
+      if (disponibilidad.hasOwnProperty(dia)) {
+        const fechaFormateada = this.obtenerFechaProxima(dia);
+        disponibilidad[dia].forEach((hora) => {
+          fechas.push({ dia: fechaFormateada, hora });
+        });
+      }
+    }
     return fechas;
   }
 
-  seleccionarFecha(fecha: { dia: string, hora: string }) {
-    this.fechaSeleccionada = fecha;
-    this.formulario.get('fecha')?.setValue(`${fecha.dia} ${fecha.hora}`);
-  }
+  obtenerFechaProxima(dia: string): string {
+    const diasDeLaSemana = [
+      'Domingo',
+      'Lunes',
+      'Martes',
+      'Miércoles',
+      'Jueves',
+      'Viernes',
+      'Sábado',
+    ];
+    const hoy = new Date();
+    const diaActual = hoy.getDay();
+    const diaObjetivo = diasDeLaSemana.indexOf(dia);
+    let diasParaSumar = diaObjetivo - diaActual;
 
-  fechaEstaSeleccionada(fecha: { dia: string, hora: string }): boolean {
-    return this.fechaSeleccionada?.dia === fecha.dia && this.fechaSeleccionada?.hora === fecha.hora;
-  }
-
-  async confirmar() {
-    if (this.formulario.invalid) {
-      this.formulario.markAllAsTouched();
-      return;
+    if (diasParaSumar <= 0) {
+      diasParaSumar += 7;
     }
 
-    this.loader.show();
-
-    const datos = this.formulario.value;
-    console.log('Datos del formulario:', datos);
-
-    let idPaciente: string = '';
-    let apellidoPaciente: string = '';
-
-    if (this.usuarioActual?.perfil === 'Paciente') {
-      idPaciente = this.usuarioActual.id!;
-      apellidoPaciente = this.usuarioActual.apellido;
-    } else {
-      idPaciente = datos.paciente.id;
-      apellidoPaciente = datos.paciente.apellido;
-    }
-
-    const turnoNuevo = new Turno(
-      idPaciente,
-      datos.especialista.id,
-      datos.especialidad,
-      datos.especialista.apellido,
-      apellidoPaciente,
-      'NN',
-      'NN',
-      [],
-      'Pendiente',
-      datos.fecha,
-    )
-
-    console.log(turnoNuevo);
-
-    if (turnoNuevo) {
-      await this.turnosService.agregarTurno(turnoNuevo);
-    }
-    
-    let fechaTransformada = this.pipeFechaTS.transform(datos.fecha);
-
-    Swal.fire({
-      title: "Turno generado correctamente",
-      text: `El especialista ${datos.especialista.apellido} ahora tiene un turno 
-      de ${datos.especialidad} pendiente con el paciente ${apellidoPaciente}, el ${fechaTransformada}`,
-      confirmButtonText: 'Listo',
-      confirmButtonColor: '#3c5ebc',
-      icon: "success"
-    });
-
-    this.limpiarCampos();
-    this.loader.hide();
+    const fechaObjetivo = addDays(hoy, diasParaSumar);
+    return format(fechaObjetivo, "dd 'de' MMMM", { locale: es });
   }
 
-  limpiarCampos() {
-    this.formulario.reset();
-    this.formulario.get('especialidad')?.reset();
-    this.formulario.get('especialista')?.reset();
-    this.formulario.get('paciente')?.reset();
-    this.formulario.get('fecha')?.reset();
-    this.fechaSeleccionada = undefined;
+  transformarFecha(fecha: { dia: string; hora: string }): string {
+    return `${fecha.dia} ${fecha.hora}`;
+  }
+
+  confirmar() {
+    if (this.formulario.valid) {
+      const pacienteSeleccionado = this.formulario.get('paciente')?.value;
+      const especialistaSeleccionado =
+        this.formulario.get('especialista')?.value;
+      const especialidadSeleccionada =
+        this.formulario.get('especialidad')?.value;
+      const fechaSeleccionada = this.formulario.get('fecha')?.value;
+      const fechaTransformada = this.transformarFecha(fechaSeleccionada);
+
+      const turno: Turno = new Turno(
+        pacienteSeleccionado.id,
+        especialistaSeleccionado.id,
+        especialidadSeleccionada.nombre,
+        especialistaSeleccionado.apellido,
+        pacienteSeleccionado.apellido,
+        'NN',
+        'NN',
+        [],
+        'Pendiente',
+        fechaSeleccionada
+      );
+
+      console.log(turno);
+
+      this.turnosService.agregarTurno(turno).then(() => {
+        Swal.fire({
+          title: 'Turno generado correctamente',
+          text: `El especialista ${especialistaSeleccionado.apellido} ahora tiene un turno 
+          de ${especialidadSeleccionada.nombre} pendiente con el paciente ${pacienteSeleccionado.apellido}, el ${fechaTransformada}`,
+          confirmButtonText: 'Listo',
+          confirmButtonColor: '#3c5ebc',
+          icon: 'success',
+        });
+      });
+    }
   }
 }
