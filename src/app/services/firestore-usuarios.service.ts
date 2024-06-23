@@ -30,6 +30,7 @@ export class FirestoreUsuariosService {
           edad: usuario.edad,
           imagenUno: usuario.imagenUno,
           imagenDos: usuario.imagenDos,
+          historiaClinica: usuario.historiaClinica,
           obraSocial: usuario.obraSocial,
         });
 
@@ -113,6 +114,7 @@ export class FirestoreUsuariosService {
           doc.obraSocial,
           doc.imagenUno,
           doc.imagenDos,
+          doc.historiaClinica,
           id
         );
       case 'Especialista':
@@ -163,8 +165,15 @@ export class FirestoreUsuariosService {
 
     try {
       const userDocRef = doc(this.firestore, `${this.PATH}/${usuario.id}`);
-      await updateDoc(userDocRef, { estado: usuario.estado, disponibilidad: usuario.disponibilidad });
-      console.log('Modificado correctamente en la BD');
+
+      if (usuario instanceof Especialista) {
+        await updateDoc(userDocRef, { estado: usuario.estado, disponibilidad: usuario.disponibilidad });
+        console.log('Especialista modificado correctamente en la BD');
+      } else if (usuario instanceof Paciente) {
+        await updateDoc(userDocRef, { historiaClinica: usuario.historiaClinica });
+        console.log('Paciente modificado correctamente en la BD');
+      }
+
     } catch (error) {
       console.error('Error actualizando usuario en Firestore:', error);
     }

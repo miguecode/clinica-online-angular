@@ -144,7 +144,6 @@ export class RegistroComponent implements OnInit {
         Validators.minLength(7),
         Validators.maxLength(9),
       ]),
-      // especialidad: new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(20), this.palabraValidator()]),
       especialidades: new FormControl([], [Validators.required]),
       imagen: new FormControl(null, Validators.required),
     });
@@ -266,7 +265,8 @@ export class RegistroComponent implements OnInit {
           datos.dni,
           datos.obraSocial,
           imagen1URL,
-          imagen2URL
+          imagen2URL,
+          'NN'
         );
       } else if (this.formActivo === 'Especialista') {
         const imagenURL = await this.uploadImage(datos.imagen);

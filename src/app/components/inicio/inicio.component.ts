@@ -66,4 +66,8 @@ export class InicioComponent implements OnInit {
   irAAltaTurno() {
     this.router.navigate(['/alta-turno']);
   }
+
+  irAPacientes() {
+    this.router.navigate(['/pacientes']);
+  }
 }

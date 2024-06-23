@@ -130,6 +130,13 @@
               <td class="tdBoton"><button id="btnResenia" (click)="verResenia(turno)">RESEÑA</button></td>
             }
 
+            @if (turno.estado === 'Realizado' && turno.diagnostico !== 'NN') {
+              <td class="tdBoton">
+                  <button id="btnEncuesta" (click)="cargarHistoriaClinica(turno)">
+                  CARGAR HISTORIA CLÍNICA
+                </button>
+              </td>
+            }
           </tr>
         }
       </tbody>

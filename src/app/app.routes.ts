@@ -4,6 +4,7 @@ import { noLoginGuard } from './guards/no-login.guard';
 import { adminGuard } from './guards/admin.guard';
 import { noLoginSiAdminGuard } from './guards/no-login-si-admin.guard';
 import { noEspecialistaGuard } from './guards/no-especialista.guard';
+import { especialistaGuard } from './guards/especialista.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'bienvenido', pathMatch: 'full' },
@@ -50,6 +51,11 @@ export const routes: Routes = [
     path: 'alta-turno',
     loadComponent: () => import('./components/turnos/alta-turno/alta-turno.component').then(m => m.AltaTurnoComponent),
     canActivate: [logeadoGuard, noEspecialistaGuard]
+  },
+  {
+    path: 'pacientes',
+    loadComponent: () => import('./components/pacientes/pacientes.component').then(m => m.PacientesComponent),
+    canActivate: [logeadoGuard, especialistaGuard]
   },
   {
     path: '**',

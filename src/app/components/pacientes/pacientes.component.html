@@ -1,0 +1,36 @@
+<div class="contenedor">
+
+  <h1>Mis Pacientes</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Correo</th>
+        <th>Edad</th>
+        <th>DNI</th>
+        <th>Obra Social</th>
+        <th>Primer Imagen</th>
+        <th>Segunda Imagen</th>
+        <th>Historial</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (paciente of listaPacientes; track paciente) {
+        @if (esPaciente(paciente)) {
+          <tr>
+            <td>{{ paciente.nombre }}</td>
+            <td>{{ paciente.apellido }}</td>
+            <td>{{ paciente.correo }}</td>
+            <td>{{ paciente.edad }}</td>
+            <td>{{ paciente.dni }}</td>
+            <td>{{ paciente.obraSocial }}</td>
+            <td class="tdImagen"><img [src]="paciente.imagenUno" alt="Imagen 1"></td>
+            <td class="tdImagen"><img [src]="paciente.imagenDos" alt="Imagen 2"></td>
+            <td><button class="botonHabilitar" (click)="mostrarHistoriaClinica(paciente)">Historia Clínica</button></td>
+          </tr>
+        } 
+      }
+    </tbody>
+  </table>
+</div>

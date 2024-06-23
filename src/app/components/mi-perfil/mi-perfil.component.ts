@@ -8,6 +8,7 @@ import { Administrador } from '../../classes/administrador';
 import { CommonModule } from '@angular/common';
 import { MostrarHorariosComponent } from '../mostrar-horarios/mostrar-horarios.component';
 import { DisponibilidadPipe } from '../../pipes/disponibilidad.pipe';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-mi-perfil',
@@ -57,6 +58,40 @@ export class MiPerfilComponent implements OnInit {
 
   mostrarHorariosClick() {
     this.mostrarHorarios = true;
+  }
+
+  mostrarHistoriaClinica() {
+    if (!this.esPaciente || !this.usuario || this.usuario.historiaClinica === 'NN') {
+      Swal.fire({
+        title: 'Historia Clínica',
+        text: 'Tu historia clínica está vacía o no se cargó aún.',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#3c5ebc',
+        icon: 'info',
+      });
+      return;
+    }
+
+    const historiaClinica = this.usuario.historiaClinica;
+    const fijos = `
+    Temperatura: ${historiaClinica.temperatura || 'N/A'} °C <br>
+    Peso: ${historiaClinica.peso || 'N/A'} kg <br>
+    Presión: ${historiaClinica.presion || 'N/A'} mmHg <br>
+    Altura: ${historiaClinica.altura || 'N/A'} cm <br>
+  `;
+
+    const opcionales = Object.keys(historiaClinica)
+      .filter(key => !['temperatura', 'peso', 'presion', 'altura'].includes(key))
+      .map(key => `${key}: ${historiaClinica[key]}`)
+      .join('<br>');
+
+    Swal.fire({
+      title: 'Historia Clínica',
+      html: `${fijos}${opcionales}`,
+      confirmButtonText: 'Listo',
+      confirmButtonColor: '#3c5ebc',
+      // icon: 'success',
+    });
   }
 
   // Función que recibe los horarios que seleccionó el usuario y los guarda en Firestore

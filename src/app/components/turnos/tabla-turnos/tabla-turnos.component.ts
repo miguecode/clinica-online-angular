@@ -336,4 +336,92 @@ export class TablaTurnosComponent implements OnInit {
       }
     });
   }
+
+  cargarHistoriaClinica(turno: Turno) {
+    Swal.fire({
+      title: 'Cargar Historia Clínica',
+      html: `
+        <style>
+          input {
+            background-color: black;
+          }
+        </style>
+
+        <p>Completá los 4 campos obligatorios. También podés agregar 3 opcionales.</p>
+        <label for="altura">Altura</label>
+        <input id="altura" class="swal2-input" style="border-color: black;" type="number" min="100" max="700"> <br>
+        <label for="peso">Peso</label>
+        <input id="peso" class="swal2-input" style="border-color: black;" type="number" min="0" max="700"> <br>
+        <label for="temperatura">Temperatura</label>
+        <input id="temperatura" class="swal2-input" style="border-color: black;" type="number" min="1" max="300"> <br>
+        <label for="presion">Presión</label>
+        <input id="presion" class="swal2-input" style="border-color: black;" type="number" min="1" max="500"> <br><br>
+        <h4>Campos Opcionales</h4>
+        <input id="campoOpcionalKey1" placeholder="Campo Opcional" class="swal2-input" style="border-color: black;" type="text"> <br>
+        <input id="campoOpcionalValue1" placeholder="Valor" class="swal2-input" style="border-color: black;" type="text"> <br>
+        <input id="campoOpcionalKey2" placeholder="Campo Opcional" class="swal2-input" style="border-color: black;" type="text"> <br>
+        <input id="campoOpcionalValue2" placeholder="Valor" class="swal2-input" style="border-color: black;" type="text"> <br>
+        <input id="campoOpcionalKey3" placeholder="Campo Opcional" class="swal2-input" style="border-color: black;" type="text"> <br>
+        <input id="campoOpcionalValue3" placeholder="Valor" class="swal2-input" style="border-color: black;" type="text">`,
+      showCancelButton: true,
+      confirmButtonText: 'Confirmar',
+      confirmButtonColor: '#3c5ebc',
+      cancelButtonText: 'Cancelar',
+      preConfirm: () => {
+        const altura = (document.getElementById('altura') as HTMLInputElement).value;
+        const peso = (document.getElementById('peso') as HTMLInputElement).value;
+        const temperatura = (document.getElementById('temperatura') as HTMLInputElement).value;
+        const presion = (document.getElementById('presion') as HTMLInputElement).value;
+        
+        const campoOpcionalKey1 = (document.getElementById('campoOpcionalKey1') as HTMLInputElement).value;
+        const campoOpcionalValue1 = (document.getElementById('campoOpcionalValue1') as HTMLInputElement).value;
+        const campoOpcionalKey2 = (document.getElementById('campoOpcionalKey2') as HTMLInputElement).value;
+        const campoOpcionalValue2 = (document.getElementById('campoOpcionalValue2') as HTMLInputElement).value;
+        const campoOpcionalKey3 = (document.getElementById('campoOpcionalKey3') as HTMLInputElement).value;
+        const campoOpcionalValue3 = (document.getElementById('campoOpcionalValue3') as HTMLInputElement).value;
+  
+        if (!altura || !peso || !temperatura || !presion) {
+          Swal.showValidationMessage('Por favor, completá los 4 campos obligatorios.');
+          return null;
+        }
+  
+        return {
+          altura,
+          peso,
+          temperatura,
+          presion,
+          opcionales: [
+            { key: campoOpcionalKey1, value: campoOpcionalValue1 },
+            { key: campoOpcionalKey2, value: campoOpcionalValue2 },
+            { key: campoOpcionalKey3, value: campoOpcionalValue3 },
+          ],
+        };
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const paciente = this.pacientes.find(p => p.id === turno.idPaciente);
+        const { altura, peso, temperatura, presion, opcionales } = result.value!;
+        console.log(result.value);
+  
+        if (paciente) {
+          const historiaClinica: any = {
+            altura,
+            peso,
+            temperatura,
+            presion,
+          };
+  
+          opcionales.forEach((opcional: { key: string; value: string; }) => {
+            if (opcional.key && opcional.value && opcional.key !== 'NN' && opcional.value !== 'NN') {
+              historiaClinica[opcional.key] = opcional.value;
+            }
+          });
+  
+          paciente.historiaClinica = historiaClinica;
+          console.log(paciente);
+          this.usuarioService.updateUsuario(paciente);
+        }
+      }
+    });
+  }
 }

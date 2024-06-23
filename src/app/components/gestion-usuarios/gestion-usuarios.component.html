@@ -25,6 +25,7 @@
         <th>Obra Social</th>
         <th>Primer Imagen</th>
         <th>Segunda Imagen</th>
+        <th>Historial</th>
       }
       @if (perfilSeleccionado === 'Especialista') {
         <th>Especialidad</th>
@@ -46,6 +47,7 @@
           <td>{{ usuario.obraSocial }}</td>
           <td class="tdImagen"><img [src]="usuario.imagenUno" alt="Imagen 1"></td>
           <td class="tdImagen"><img [src]="usuario.imagenDos" alt="Imagen 2"></td>
+          <td><button class="botonHabilitar" (click)="mostrarHistoriaClinica(usuario)">Historia Clínica</button></td>
         }
         @if (esEspecialista(usuario)) {
           <td>{{ usuario.especialidad }}</td>
