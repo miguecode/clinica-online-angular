@@ -1,5 +1,5 @@
 import { ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withViewTransitions } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { routes } from './app.routes';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
@@ -12,7 +12,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
+    provideRouter(routes, withViewTransitions()), //withViewTransitions para las transiciones de ruteo
     provideHttpClient(),
     provideAnimations(),
     provideFirebaseApp(() => initializeApp({

@@ -6,13 +6,28 @@ import { FirestoreUsuariosService } from '../../../services/firestore-usuarios.s
 import { LoaderService } from '../../../services/loader.service';
 import { Usuario } from '../../../classes/usuario';
 import { TablaTurnosComponent } from '../tabla-turnos/tabla-turnos.component';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+
+const mostrarOcultar = trigger('mostrarOcultar', [
+  state (
+    'abierto',
+    style({opacity: 1 })
+  ),
+  state (
+    'cerrado',
+    style({ opacity: 0 })
+  ),
+    transition('abierto => cerrado', [animate('1s')]),
+    transition('cerrado => abierto', [animate('0.5s')]),
+]);
 
 @Component({
   selector: 'app-mis-turnos',
   standalone: true,
   imports: [TablaTurnosComponent],
   templateUrl: './mis-turnos.component.html',
-  styleUrl: './mis-turnos.component.css'
+  styleUrl: './mis-turnos.component.css',
+  animations: [mostrarOcultar],
 })
 export class MisTurnosComponent implements OnInit{
   // turnos: Turno[] = [];

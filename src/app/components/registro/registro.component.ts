@@ -25,6 +25,18 @@ import { Administrador } from '../../classes/administrador';
 import { EspecialidadesService } from '../../services/especialidades.service';
 import { EspecialidadesComponent } from '../especialidades/especialidades.component';
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
+import { animate, style, transition, trigger } from '@angular/animations';
+
+const mostrarOcultar = trigger('mostrarOcultarTrigger', [
+  transition (':enter', [
+    style({ opacity: 0 }),
+    animate('1s', style({ opacity: 1 }))
+  ]),
+  transition (':leave', [
+    style({ opacity: 1 }),
+    animate('0.6s', style({ opacity: 0 }))
+  ]),
+]);
 
 @Component({
   selector: 'app-registro',
@@ -43,6 +55,7 @@ import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
   ],
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.css'],
+  animations: [mostrarOcultar],
 })
 export class RegistroComponent implements OnInit {
   mensaje: string =
@@ -405,5 +418,10 @@ export class RegistroComponent implements OnInit {
   resolved(captchaResponse: string | null) {
     console.log(`Resolved captcha with response: ${captchaResponse}`);
     this.captchaResolved = captchaResponse !== null;
+  }
+
+  // Función para la animación de mostrar u ocultar un componente hijo
+  mostrarOcultar() {
+    this.mostrarEspecialidades = !this.mostrarEspecialidades;
   }
 }

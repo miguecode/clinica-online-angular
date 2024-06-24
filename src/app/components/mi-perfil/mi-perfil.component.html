@@ -1,8 +1,8 @@
-<div class="contenedor">
+<div class="contenedor" @mostrarOcultarTrigger> <!-- Le agregué el Trigger de la animación -->
   <h1>Mi Perfil</h1>
   <br>
   @if (usuario !== undefined) {
-    <div class="contenedor-dentro">
+    <div class="contenedor-dentro" >
       
       <div class="contenedor-imagenes">
         @if (usuario.perfil == 'Paciente') {
@@ -25,14 +25,14 @@
           <button (click)="mostrarHistoriaClinica()">Ver Historia Clínica</button>
         } @else if (usuario.perfil == 'Especialista') {
           <p><span>Disponibilidad: </span>{{ usuario?.disponibilidad | disponibilidad }}</p>
-          <button (click)="mostrarHistoriaClinica()">Configurar Disponibilidad Horaria</button>
+          <button (click)="mostrarHorariosClick()">Configurar Disponibilidad Horaria</button>
         }
       </div>
     </div>
   }
 
   @if (mostrarHorarios) {
-    <div class="overlay">
+    <div @mostrarOcultarTrigger class="overlay">  <!-- Le agregué el Trigger de la animación -->
       <app-mostrar-horarios (horariosSeleccionados)="recibirHorariosSeleccionados($event)" 
       (cerrarMostrarHorarios)="cerrarMostrarHorarios()"></app-mostrar-horarios>
     </div>

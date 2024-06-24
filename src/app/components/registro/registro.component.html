@@ -206,7 +206,7 @@
         <div class="linea">
           <button class="btn" (click)="mostrarEspecialidadesClick()">Seleccionar Especialidades</button>
           
-          <div *ngIf="mostrarEspecialidades" class="overlay">
+          <div *ngIf="mostrarEspecialidades" @mostrarOcultarTrigger class="overlay">
             <app-especialidades 
               (especialidadesSeleccionadas)="recibirEspecialidadesSeleccionadas($event)" 
               (cerrarEspecialidades)="cerrarEspecialidades()">

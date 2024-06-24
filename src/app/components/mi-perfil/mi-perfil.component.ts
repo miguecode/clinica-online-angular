@@ -9,13 +9,26 @@ import { CommonModule } from '@angular/common';
 import { MostrarHorariosComponent } from '../mostrar-horarios/mostrar-horarios.component';
 import { DisponibilidadPipe } from '../../pipes/disponibilidad.pipe';
 import Swal from 'sweetalert2';
+import { animate, style, transition, trigger } from '@angular/animations';
+
+const mostrarOcultar = trigger('mostrarOcultarTrigger', [
+  transition (':enter', [
+    style({ opacity: 0 }),
+    animate('1s', style({ opacity: 1 }))
+  ]),
+  transition (':leave', [
+    style({ opacity: 1 }),
+    animate('0.6s', style({ opacity: 0 }))
+  ]),
+]);
 
 @Component({
   selector: 'app-mi-perfil',
   standalone: true,
   imports: [CommonModule, MostrarHorariosComponent, DisponibilidadPipe],
   templateUrl: './mi-perfil.component.html',
-  styleUrls: ['./mi-perfil.component.css']
+  styleUrls: ['./mi-perfil.component.css'],
+  animations: [mostrarOcultar],
 })
 export class MiPerfilComponent implements OnInit {
   usuario: any;
@@ -54,6 +67,11 @@ export class MiPerfilComponent implements OnInit {
     } finally {
       this.loader.hide();
     }
+  }
+
+  // Función para la animación de mostrar u ocultar un componente hijo
+  mostrarOcultar() {
+    this.mostrarHorarios = !this.mostrarHorarios;
   }
 
   mostrarHorariosClick() {
