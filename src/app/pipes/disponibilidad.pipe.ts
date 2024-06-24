@@ -7,7 +7,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class DisponibilidadPipe implements PipeTransform {
 
   transform(disponibilidad: { [key: string]: string[] }): string {
-    if (!disponibilidad) {
+    if (!disponibilidad || typeof disponibilidad !== 'object') {
+      console.log('El pipe "dipsonibilidad" no recibió lo que debería');
       return '';
     }
 
@@ -17,5 +18,4 @@ export class DisponibilidadPipe implements PipeTransform {
       return `${dia}: ${horarios}`;
     }).join(' | ');
   }
-
 }

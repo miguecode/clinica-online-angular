@@ -69,13 +69,16 @@ export class PacientesComponent implements OnInit {
 
   filtrarPacientesValidos() {
     if (!this.usuarioActual || !this.usuarioActual.id) return;
-
+  
+    // Filtro por turnos del especialista y que estén realizados
     const idPacientesPropios = this.listaTurnos
-      .filter(t => t.idEspecialista === this.usuarioActual!.id)
+      .filter(t => t.idEspecialista === this.usuarioActual!.id && t.estado === 'Realizado')
       .map(t => t.idPaciente);
-
+  
+    // Filtro solo los pacientes propios
     this.listaPacientes = this.listaPacientes.filter(p => idPacientesPropios.includes(p.id!));
   }
+  
 
   esPaciente(usuario: Usuario | Paciente | Especialista | Administrador): usuario is Paciente {
     return usuario instanceof Paciente;

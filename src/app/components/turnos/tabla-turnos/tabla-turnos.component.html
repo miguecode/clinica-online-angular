@@ -1,5 +1,5 @@
 <div class="filtro">
-  @if (usuarioActual?.perfil === 'Paciente' || usuarioActual?.perfil === 'Administrador') {
+  <!-- @if (usuarioActual?.perfil === 'Paciente' || usuarioActual?.perfil === 'Administrador') {
     <div class="grupo">
       <h3>Especialistas</h3>
       <div>
@@ -39,9 +39,15 @@
       }
     </div>
   </div>
+</div> -->
+
+  <div class="inputBuscar">
+    <input id="filtroBuscar" [(ngModel)]="filtroBuscar" type="text" autocomplete="off" placeholder="Escriba cualquier palabra clave...">
+    <button class="btnBuscar" (click)="buscar()">Buscar</button>
+  </div>
 </div>
 
-<br><br>
+<br>
 
 @if (usuarioActual?.perfil === 'Paciente') {
 

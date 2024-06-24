@@ -7,10 +7,14 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 
+// Animations
+import { provideAnimations } from '@angular/platform-browser/animations';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(),
+    provideAnimations(),
     provideFirebaseApp(() => initializeApp({
       "projectId": "clinica-online-f6245",
       "appId": "1:181972658582:web:c840cf4af0c2eba5a555b7",

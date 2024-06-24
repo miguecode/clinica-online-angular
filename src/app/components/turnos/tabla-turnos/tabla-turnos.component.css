@@ -110,10 +110,6 @@ button {
   background-color: #4868b9;
 }
 
-#saso {
-  color:red;
-}
-
 label {
   margin-left: 5px;
   display: inline-block;
@@ -131,4 +127,40 @@ input[type="checkbox"]:checked + label {
   background-color: #3c5ebc;
   color: #fff;
   border-radius: 10px;
+}
+
+
+.inputBuscar {
+  background-color: #bdd3f8;
+  border-radius: 10px;
+  padding: 6px 20px 20px 20px;
+  width: 65%;
+}
+
+input[type="text"] {
+  background-color: #bdd3f8;
+  color: #0d225c;
+  border: none;
+  border-radius: 10px;
+  width: 100%;
+  margin-bottom: 4px;
+  font-size: 22px;
+  padding: 10px;
+}
+input[type="text"]::placeholder {
+  color: #2b417f;
+  border: none;
+}
+
+.btnBuscar {
+  background-color: #3c5ebc;
+  color: #fff;
+  border-radius: 10px;
+  height: 50px;
+  font-size: 24px;
+  font-weight: normal;
+}
+.btnBuscar:hover {
+  background-color: #5371bd;
+  color: #fff;
 }

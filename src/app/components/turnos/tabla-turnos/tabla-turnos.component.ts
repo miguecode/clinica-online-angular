@@ -10,11 +10,12 @@ import { Paciente } from '../../../classes/paciente';
 import { Administrador } from '../../../classes/administrador';
 import Swal from 'sweetalert2';
 import { FechaPipe } from '../../../pipes/fecha.pipe';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-tabla-turnos',
   standalone: true,
-  imports: [FechaPipe],
+  imports: [FechaPipe, FormsModule],
   templateUrl: './tabla-turnos.component.html',
   styleUrls: ['./tabla-turnos.component.css'],
 })
@@ -27,6 +28,8 @@ export class TablaTurnosComponent implements OnInit {
   especialidadSeleccionada: string[] = []; // Lista de las especialidades seleccionadas
   especialistaSeleccionado: string[] = []; // Lista de los especialistas seleccionados
   pacienteSeleccionado: string[] = []; // Lista de los pacientes seleccionados
+  filtroBuscar: string = ''; // Palabra de búsqueda
+  turnosPropiosSinFiltro: Turno[] = [];
 
   constructor(
     private usuarioService: FirestoreUsuariosService,
@@ -41,15 +44,14 @@ export class TablaTurnosComponent implements OnInit {
     this.cargarTurnos()
       .then(() => {
         const promesas: Promise<any>[] = [];
-        if (
-          this.usuarioActual instanceof Paciente ||
-          this.usuarioActual instanceof Administrador
-        ) {
-          promesas.push(this.cargarEspecialidades());
-          promesas.push(this.cargarEspecialistas());
-        } else if (this.usuarioActual instanceof Especialista) {
-          promesas.push(this.cargarPacientes());
+
+        promesas.push(this.cargarEspecialistas());
+        promesas.push(this.cargarPacientes());
+        
+        if (this.usuarioActual instanceof Especialista) {
           this.especialidades = this.usuarioActual.especialidad;
+        } else {
+          promesas.push(this.cargarEspecialidades());
         }
 
         return Promise.all(promesas); // Espero a que todas las promesas se resuelvan
@@ -62,6 +64,10 @@ export class TablaTurnosComponent implements OnInit {
         console.log(this.especialidades);
         console.log(this.especialistas);
         console.log(this.pacientes);
+
+        // Me duplico la lista de turnos propios filtrados
+        this.turnosPropiosSinFiltro = this.turnos;
+
         this.loader.hide();
       });
   }
@@ -423,5 +429,56 @@ export class TablaTurnosComponent implements OnInit {
         }
       }
     });
+  }
+
+  buscar() {
+    // Vuelvo a poner a todos los turnos posibles en la lista
+    this.turnos = this.turnosPropiosSinFiltro;
+
+    if (!this.filtroBuscar || this.filtroBuscar === '') return;
+
+    const palabraClave = this.filtroBuscar.toLowerCase();
+    console.log(`La palabra a buscar es: ${palabraClave}`);
+    // c = coincidencia
+
+    // Recorro cada turno de los posibles (los propios del usuario actual)
+    this.turnos = this.turnos.filter(turno => {
+      // Busco coincidencia en los turnos
+      const cEspecialidad = turno.especialidad.toLowerCase().includes(palabraClave);
+      const cEspecialista = turno.apellidoEspecialista.toLowerCase().includes(palabraClave);
+      const cPaciente = turno.apellidoPaciente.toLowerCase().includes(palabraClave);
+      const cComentario = turno.comentario?.toLowerCase().includes(palabraClave);
+      const cDiagnostico = turno.diagnostico?.toLowerCase().includes(palabraClave);
+      const cEstado = turno.estado.toLowerCase().includes(palabraClave);
+      const cIdEspecialista = turno.idEspecialista.toLowerCase().includes(palabraClave);
+      const cIdPaciente = turno.idPaciente.toLowerCase().includes(palabraClave);
+      const cIdTurno = turno.idTurno?.toLowerCase().includes(palabraClave);
+
+      // Busco coincidencia en la fecha
+      const valoresFecha = Object.values(turno.fecha);
+      const cFecha = valoresFecha.some(valor => valor!.toString().toLocaleLowerCase().includes(palabraClave));
+
+      // Busco coincidencia en las historias clínicas
+      const cHistoria = this.buscarEnHistoriaClinica(turno.idPaciente, palabraClave);
+
+      // Si retorno TRUE, se agrega el turno a la lista de turnos a mostrar
+      return cEspecialidad || cEspecialista || cPaciente || cComentario || cDiagnostico
+             || cHistoria || cEstado || cIdEspecialista || cIdPaciente || cIdTurno || cFecha;
+    });
+  }
+
+  buscarEnHistoriaClinica(idPaciente: string, palabraClave: string): boolean {
+    const paciente = this.pacientes.find(p => p.id === idPaciente);
+    if (!paciente || !paciente.historiaClinica || paciente.historiaClinica === 'NN') return false;
+
+    // Busco en los 'keys' del objeto 'historiaClinica'
+    const keys = Object.keys(paciente.historiaClinica);
+    const cKeys = keys.some(key => key.toLowerCase().includes(palabraClave));
+  
+    // Busco en los valores del objeto 'historiaClinica'
+    const valores = Object.values(paciente.historiaClinica);
+    const cValores = valores.some(valor => valor!.toString().toLowerCase().includes(palabraClave));
+  
+    return cKeys || cValores;
   }
 }

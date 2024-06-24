@@ -5,7 +5,12 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true
 })
 export class FechaPipe implements PipeTransform {
-  transform(value: { dia: string, hora: string }): string {
-    return `${value.dia}, ${value.hora}`;
+  transform(fecha: { dia: string, hora: string }): string {
+    if (!fecha || typeof fecha !== 'object') {
+      console.log('La fecha no recibió lo que debería');
+      return '';
+    }
+
+    return `${fecha.dia}, ${fecha.hora}`;
   }
 }

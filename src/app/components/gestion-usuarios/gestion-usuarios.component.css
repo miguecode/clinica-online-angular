@@ -93,18 +93,28 @@ th, td {
   margin-top: 20px;
   width: 40%;
   height: 60px;
-  background: #bdd3f8;
+  background: #3354ae;
   border: none;
   outline: none;
   border-radius: 15px;
   cursor: pointer;
   font-size: 25px;
-  color: #3c5ebc;
+  color: #fff;
   font-weight: 600;
   transition: 0.30s;
 }
 
 .boton:hover {
-  background-color:#c5d6f5;
-  color: #2e4da3;
+  background-color:#5773c0;
+  color: #fff;
+}
+
+.botonExcel {
+  margin-left: 10px;
+  background: #245331;
+  color: #fff;
+}
+.botonExcel:hover {
+  background: #39864f;
+  color: #fff;
 }
