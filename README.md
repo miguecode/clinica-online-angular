@@ -77,66 +77,79 @@ Un requisito extra a la hora de registrarse, es que el usuario tendrá que **com
 ## 🖥️ Pantallas y sus detalles
 
 - Bienvenida
+
   <img src="https://github.com/Leumig/clinica-online-angular/assets/103081146/3883d139-3b50-47f9-be0e-a53945a76dc5" width="510"/>
 
 La primer pantalla de la aplicación. Se pueden ver los botones para iniciar sesión y registrarse. También podemos ver un navbar con distintos accesos rápidos, incluida una sección 'Sobre Mí'.
 
 - Formulario de Ingreso
+
   <img src="https://github.com/Leumig/clinica-online-angular/assets/103081146/e0fa34f8-2521-4fc7-8d73-902fcfe6b170" width="510"/>
 
 Vemos 2 entradas: Correo y Clave. El botón de ingreso sólo se habilita cuando ambos campos están completados correctamente. Además, vemos una sección de accesos rápidos para agilizar el proceso de prueba.
 
 - Formulario de Registro
+
   <img src="https://github.com/Leumig/clinica-online-angular/assets/103081146/e23afc0b-da93-44b9-a0ba-5122c2177e03" width="510"/>
 
 En primer instancia, vemos el registro diseñado para crear un paciente. Abajo tenemos la opción de cambiar al formulario de especialista. El botón de confirmación sólo se habilita cuando todos los campos están completados correctamente. Incluso el de la o las imagenes.
 
 - Sobre Mí
+
   <img src="https://github.com/Leumig/clinica-online-angular/assets/103081146/981b59b6-e549-4fc2-8c18-527e85446241" width="510"/>
 
 Datos de mi perfil de GitHub. Los obtengo gracias a la API.
 
 - Inicio como Paciente
+  
   <img src="https://github.com/Leumig/clinica-online-angular/assets/103081146/c3ecd689-9674-4406-afd1-a45f78fb2f50" width="510"/>
 
 2 opciones disponibles para elegir: Mis turnos y Solicitar Turno.
 
 - Inicio como Especialista
+
   <img src="https://github.com/Leumig/clinica-online-angular/assets/103081146/ba7f45ab-0ada-4788-abb9-5e4f25af6ae5" width="510"/>
 
 Una opción disponible para elegir: Mis turnos.
 
 - Inicio como Administrador
+
   <img src="https://github.com/Leumig/clinica-online-angular/assets/103081146/0f0a18fb-10d4-49c2-ac77-af579c12caff" width="510"/>
 
 3 opciones disponibles para elegir: Gestión de Usuarios, Turnos y Asignar Turno.
 
 - Mi Perfil
+
   <img src="https://github.com/Leumig/clinica-online-angular/assets/103081146/e3a5aff0-0b51-4280-b2bd-a72997134ee2" width="510"/>
 
 En este caso, vemos el ejemplo del perfil de un Paciente. Por eso aparecen 2 imagenes en vez de una. Esta sección es igual en los otros dos tipos de usuario, pero con sus otros datos específicos.
 
 - Mi Perfil de Especialista
+
   <img src="https://github.com/Leumig/clinica-online-angular/assets/103081146/0b466e18-a74e-483e-bcda-4c92fd9b62a0" width="510"/>
 
 El perfil de especialista tiene la particularidad de tener una opción extra, que es la de configurar su disponibilidad horaria.
 
 - Configurar disponibilidad horaria
+
   <img src="https://github.com/Leumig/clinica-online-angular/assets/103081146/2aff3ddb-d647-463f-9401-ff8c9911f8cf" width="510"/>
 
 El especialista elegirá entre los 6 días posibles, y sus respectivos horarios.
 
 - Mis turnos
+
   <img src="https://github.com/Leumig/clinica-online-angular/assets/103081146/aae49f2c-c7ec-4efe-aa63-6f8739bc3d8a" width="510"/>
 
 En este caso, vemos el ejemplo de la sección basada en un paciente. Se muestra la información de cada turno, con la posibilidad de filtrar por especialidad y especialista. Si se ingresa desde un especialista, será lo mismo pero con el filtro de especialidad y paciente. Además de la información de cada turno, aparece una lista de acciones para cada uno. El paciente tendrá unas opciones, y el especialista otras. Para el administrador, lo mismo. Un filtro por especialidad y especialista, y las acciones disponibles.
 
 - Solicitar Turno
+
   <img src="https://github.com/Leumig/clinica-online-angular/assets/103081146/f6124e93-82fb-4ae6-9ad2-8d514b0dd355" width="510"/>
 
 En este caso, vemos el ejemplo de la sección basada en un paciente. En ella, se podrá elegir cada elemento vital de un turno: la especialidad, el especialista, y la fecha. Dependiendo de qué especialidad se elija, se mostrarán los especialistas que la posean. Y las fechas serán las que el especialista tenga disponibles. En en el caso de la pantalla basada en administradores, será lo mismo pero con una selección extra: la del paciente.
 
 - Gestión de Usuarios
+
   <img src="https://github.com/Leumig/clinica-online-angular/assets/103081146/b7dbdbe2-bff0-4c96-b908-8d5164e2bb22" width="510"/>
 
 Podemos ver la tabla con toda la información de cada usuario. Hay 2 botones grandes en forma de filtro. El primero representa a los pacientes y el segundo a los especialistas. Como en este caso se están mostrando los especialistas, en la tabla podemos ver una opción extra que es la de habilitar o deshabilitar. De esta forma el administrador maneja el estado de ese tipo de usuario. Y por último, podemos ver un botón de Crear Usuario. Eso lo lleva a la sección de registro, donde también podrá agregar otros administradores.
