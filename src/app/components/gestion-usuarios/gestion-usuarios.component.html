@@ -1,16 +1,26 @@
 <!-- <h1>Gestión de Usuarios</h1> -->
-<br><br><br><br><br>
+<br /><br /><br /><br /><br />
 <div class="segmented-control">
-  <button (click)="cambiarPerfil('Paciente')"
-  [class.active]="'Paciente' === perfilSeleccionado">
-  <img class="imgBoton" src="../../../assets/images/paciente.png" alt="Paciente">
-</button>
-  <button (click)="cambiarPerfil('Especialista')" 
-  [class.active]="'Especialista' === perfilSeleccionado">
-  <img class="imgBoton" src="../../../assets/images/especialista.png" alt="Especialista">
-</button>
-  <!-- <button (click)="cambiarPerfil('Administrador')"
-  [class.active]="'Administrador' === perfilSeleccionado">Administradores</button> -->
+  <button
+    (click)="cambiarPerfil('Paciente')"
+    [class.active]="'Paciente' === perfilSeleccionado"
+  >
+    <img
+      class="imgBoton"
+      src="../../../assets/images/paciente.png"
+      alt="Paciente"
+    />
+  </button>
+  <button
+    (click)="cambiarPerfil('Especialista')"
+    [class.active]="'Especialista' === perfilSeleccionado"
+  >
+    <img
+      class="imgBoton"
+      src="../../../assets/images/especialista.png"
+      alt="Especialista"
+    />
+  </button>
 </div>
 
 <table>
@@ -22,54 +32,63 @@
       <th>Edad</th>
       <th>DNI</th>
       @if (perfilSeleccionado === 'Paciente') {
-        <th>Obra Social</th>
-        <th>Primer Imagen</th>
-        <th>Segunda Imagen</th>
-        <th>Historial</th>
-      }
-      @if (perfilSeleccionado === 'Especialista') {
-        <th>Especialidad</th>
-        <th>Estado</th>
-        <th>Imagen Perfil</th>
-        <th class="thBoton">Cambiar Estado</th>
+      <th>Obra Social</th>
+      <th>Primer Imagen</th>
+      <th>Segunda Imagen</th>
+      <th>Historial</th>
+      } @if (perfilSeleccionado === 'Especialista') {
+      <th>Especialidad</th>
+      <th>Estado</th>
+      <th>Imagen Perfil</th>
+      <th class="thBoton">Cambiar Estado</th>
       }
     </tr>
   </thead>
   <tbody>
     @for (usuario of listaUsuarios; track usuario) {
-      <tr>
-        <td>{{ usuario.nombre }}</td>
-        <td>{{ usuario.apellido }}</td>
-        <td>{{ usuario.correo }}</td>
-        <td>{{ usuario.edad }}</td>
-        <td>{{ usuario.dni }}</td>
-        @if (esPaciente(usuario)) {
-          <td>{{ usuario.obraSocial }}</td>
-          <td class="tdImagen"><img [src]="usuario.imagenUno" alt="Imagen 1"></td>
-          <td class="tdImagen"><img [src]="usuario.imagenDos" alt="Imagen 2"></td>
-          <td><button class="botonHabilitar" (click)="mostrarHistoriaClinica(usuario)">Historia Clínica</button></td>
-        }
-        @if (esEspecialista(usuario)) {
-          <td>{{ usuario.especialidad | especialidades }}</td>
-          <td class="tdEstado">{{ usuario.estado }}</td>
-          <td class="tdImagen"><img [src]="usuario.imagenPerfil" alt="Imagen Perfil"></td>
-          <td class="tdBoton">
-            <button class="botonHabilitar" (click)="cambiarEstadoEspecialista(usuario)">
-              @if (usuario.estado !== 'Habilitado') {
-                HABILITAR
-              } @else {
-                DESHABILITAR
-              }
-            </button>
-          </td>
-        }
-      </tr>
+    <tr>
+      <td>{{ usuario.nombre }}</td>
+      <td>{{ usuario.apellido }}</td>
+      <td>{{ usuario.correo }}</td>
+      <td>{{ usuario.edad }}</td>
+      <td>{{ usuario.dni }}</td>
+      @if (esPaciente(usuario)) {
+      <td>{{ usuario.obraSocial }}</td>
+      <td class="tdImagen"><img [src]="usuario.imagenUno" alt="Imagen 1" /></td>
+      <td class="tdImagen"><img [src]="usuario.imagenDos" alt="Imagen 2" /></td>
+      <td>
+        <button
+          class="botonHabilitar"
+          (click)="mostrarHistoriaClinica(usuario)"
+        >
+          Historia Clínica
+        </button>
+      </td>
+      } @if (esEspecialista(usuario)) {
+      <td>{{ usuario.especialidad | especialidades }}</td>
+      <td class="tdEstado">{{ usuario.estado }}</td>
+      <td class="tdImagen">
+        <img [src]="usuario.imagenPerfil" alt="Imagen Perfil" />
+      </td>
+      <td class="tdBoton">
+        <button
+          class="botonHabilitar"
+          (click)="cambiarEstadoEspecialista(usuario)"
+        >
+          @if (usuario.estado !== 'Habilitado') { HABILITAR } @else {
+          DESHABILITAR }
+        </button>
+      </td>
+      }
+    </tr>
     }
   </tbody>
 </table>
 
-<div style="display: flex; justify-content: center;">
+<div style="display: flex; justify-content: center">
   <button class="boton" (click)="irAAlta()">Crear Usuario</button>
-  <button class="boton botonExcel" (click)="descargarExcel()">Descargar lista (Excel)</button>
+  <button class="boton botonExcel" (click)="descargarExcel()">
+    Descargar lista (Excel)
+  </button>
 </div>
-<br><br>
+<br /><br />

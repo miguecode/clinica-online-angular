@@ -84,7 +84,7 @@ export class AuthService {
         console.error('El correo electrónico no ha sido verificado');
         throw new Error('El correo electrónico no ha sido verificado');
       }
-      
+
       return userCredential;
     } catch (error) {
       this.handleError(error);

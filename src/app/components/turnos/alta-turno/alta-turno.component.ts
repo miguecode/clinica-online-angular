@@ -21,6 +21,7 @@ import { Especialidad } from '../../../classes/especialidad';
 import Swal from 'sweetalert2';
 import { format, addDays, startOfWeek, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-alta-turno',
@@ -50,7 +51,8 @@ export class AltaTurnoComponent implements OnInit {
     private loader: LoaderService,
     private especialidadesService: EspecialidadesService,
     private turnosService: TurnosService,
-    private pipeFechaTS: FechaPipe
+    private pipeFechaTS: FechaPipe,
+    private router: Router,
   ) {
     this.formulario = this.fb.group({
       especialidad: [null, [Validators.required]],
@@ -282,7 +284,8 @@ export class AltaTurnoComponent implements OnInit {
         'NN',
         [],
         'Pendiente',
-        fechaSeleccionada
+        fechaSeleccionada,
+        'NN'
       );
 
       console.log(turno);
@@ -295,7 +298,14 @@ export class AltaTurnoComponent implements OnInit {
           confirmButtonText: 'Listo',
           confirmButtonColor: '#3c5ebc',
           icon: 'success',
-        });
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // const especialista: Especialista = this.formulario.get('especialista')?.value;
+            // especialista.disponibilidad
+
+            this.router.navigate(['/mis-turnos']);
+          }
+        })
       });
     }
   }

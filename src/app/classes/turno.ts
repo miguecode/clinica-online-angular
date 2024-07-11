@@ -10,7 +10,8 @@ export class Turno {
   encuesta: any[];
   estado: string;
   fecha: any;
-  
+  historiaClinica?: any;
+
   constructor(
     idPaciente: string,
     idEspecialista: string,
@@ -22,6 +23,7 @@ export class Turno {
     encuesta: any[],
     estado: string,
     fecha: any,
+    historiaClinica?: any,
     idTurno?: string
   ) {
     this.idPaciente = idPaciente;
@@ -34,6 +36,7 @@ export class Turno {
     this.encuesta = encuesta;
     this.estado = estado;
     this.fecha = fecha;
+    this.historiaClinica = historiaClinica;
     this.idTurno = idTurno;
   }
 }

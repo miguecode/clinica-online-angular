@@ -1,343 +1,539 @@
-<br><br><br><br>
+<br /><br /><br /><br />
 <div class="wrapper">
   @if (!mostrarConfirmacion) {
+  <div class="segmented-control">
+    <button
+      (click)="cambiarFormulario('Paciente')"
+      [class.active]="'Paciente' === formActivo"
+    >
+      <img
+        class="imgBoton"
+        src="../../../assets/images/paciente.png"
+        alt="Paciente"
+      />
+    </button>
+    <button
+      (click)="cambiarFormulario('Especialista')"
+      [class.active]="'Especialista' === formActivo"
+    >
+      <img
+        class="imgBoton"
+        src="../../../assets/images/especialista.png"
+        alt="Especialista"
+      />
+    </button>
+  </div>
 
+  <form [formGroup]="obtenerFormularioActivo()">
     @if (formActivo === 'Paciente') {
-      <h1 style="user-select: none;">Registro Paciente</h1>
+    <!-- Formulario de Paciente -->
+    <!-- <re-captcha (resolved)="resolved($event)" siteKey="6LfMTPspAAAAACHfUnDTdRazvSIsrcDKkROWpdcq"></re-captcha> -->
+
+    <div class="linea">
+      <div class="input-box">
+        <input
+          formControlName="correo"
+          type="email"
+          class="form-control"
+          placeholder="Correo"
+        />
+        @if (formPaciente.get('correo'); as aux) { @if (aux.invalid &&
+        (aux.dirty)) {
+        <div class="alert hide alert-danger" role="alert">
+          {{
+            aux.hasError("required")
+              ? "El correo es obligatorio"
+              : "Correo no válido"
+          }}
+        </div>
+        } }
+      </div>
+
+      <div class="input-box">
+        <input
+          formControlName="clave"
+          type="password"
+          class="form-control"
+          placeholder="Clave"
+        />
+        @if (formPaciente.get('clave'); as aux) { @if (aux.invalid &&
+        (aux.dirty)) {
+        <div class="alert hide alert-danger" role="alert">
+          {{
+            aux.hasError("required")
+              ? "La clave es obligatoria"
+              : "Clave no válida"
+          }}
+        </div>
+        } }
+      </div>
+
+      <div class="input-box">
+        <input
+          formControlName="dni"
+          type="text"
+          class="form-control"
+          placeholder="DNI"
+        />
+        @if (formPaciente.get('dni'); as aux) { @if (aux.invalid && (aux.dirty))
+        {
+        <div class="alert hide alert-danger" role="alert">
+          {{
+            aux.hasError("required") ? "El DNI es obligatorio" : "DNI no válido"
+          }}
+        </div>
+        } }
+      </div>
+    </div>
+
+    <div class="linea">
+      <div class="input-box">
+        <input
+          formControlName="nombre"
+          type="text"
+          class="form-control"
+          placeholder="Nombre"
+        />
+        @if(formPaciente.get('nombre'); as aux) { @if(aux.invalid &&
+        (aux.dirty)) {
+        <div class="alert hide alert-danger" role="alert">
+          {{
+            aux.hasError("required")
+              ? "El nombre es obligatorio"
+              : aux.hasError("invalidName")
+              ? "Nombre no válido"
+              : "Nombre debe tener entre 2 y 20 caracteres"
+          }}
+        </div>
+        } }
+      </div>
+
+      <div class="input-box">
+        <input
+          formControlName="apellido"
+          type="text"
+          class="form-control"
+          placeholder="Apellido"
+        />
+        @if(formPaciente.get('apellido'); as aux) { @if(aux.invalid &&
+        (aux.dirty)) {
+        <div class="alert hide alert-danger" role="alert">
+          {{
+            aux.hasError("required")
+              ? "El apellido es obligatorio"
+              : aux.hasError("invalidName")
+              ? "Apellido no válido"
+              : "Apellido debe tener entre 2 y 20 caracteres"
+          }}
+        </div>
+        } }
+      </div>
+
+      <div class="input-box">
+        <input
+          formControlName="edad"
+          type="number"
+          class="form-control"
+          placeholder="Edad"
+          min="1"
+          max="120"
+        />
+        @if (formPaciente.get('edad'); as aux) { @if (aux.invalid &&
+        (aux.dirty)) {
+        <div class="alert hide alert-danger" role="alert">
+          {{
+            aux.hasError("required")
+              ? "La edad es obligatoria"
+              : "Edad no válida"
+          }}
+        </div>
+        } }
+      </div>
+    </div>
+
+    <div class="linea">
+      <div class="input-box">
+        <input
+          formControlName="obraSocial"
+          type="text"
+          class="form-control"
+          placeholder="Obra Social"
+        />
+        @if (formPaciente.get('obraSocial'); as aux) { @if (aux.invalid &&
+        (aux.dirty)) {
+        <div class="alert hide alert-danger" role="alert">
+          {{
+            aux.hasError("required")
+              ? "La obra social es obligatoria"
+              : "Obra social no válida"
+          }}
+        </div>
+        } }
+      </div>
+
+      <div class="input-box">
+        <input
+          type="file"
+          class="form-control"
+          (change)="onFileChange($event, 'imagenUno')"
+          placeholder="Imagen Uno"
+          id="selectFile"
+        />
+        @if (formPaciente.get('imagenUno'); as aux) { @if (aux.invalid &&
+        (aux.dirty)) {
+        <div class="alert hide alert-danger" role="alert">
+          La imagen 1 es obligatoria
+        </div>
+        } }
+      </div>
+
+      <div class="input-box">
+        <input
+          type="file"
+          class="form-control"
+          (change)="onFileChange($event, 'imagenDos')"
+          placeholder="Imagen Dos"
+          id="selectFile"
+        />
+        @if (formPaciente.get('imagenDos'); as aux) { @if (aux.invalid &&
+        (aux.dirty)) {
+        <div class="alert hide alert-danger" role="alert">
+          La imagen 2 es obligatoria
+        </div>
+        } }
+      </div>
+    </div>
     } @else if (formActivo === 'Especialista') {
-      <h1 style="user-select: none;">Registro Especialista</h1>
+
+    <!-- Formulario de Especialista -->
+
+    <div class="linea">
+      <div class="input-box">
+        <input
+          formControlName="correo"
+          type="email"
+          class="form-control"
+          placeholder="Correo"
+        />
+        @if (formEspecialista.get('correo'); as aux) { @if (aux.invalid &&
+        (aux.dirty)) {
+        <div class="alert hide alert-danger" role="alert">
+          {{
+            aux.hasError("required")
+              ? "El correo es obligatorio"
+              : "Correo no válido"
+          }}
+        </div>
+        } }
+      </div>
+
+      <div class="input-box">
+        <input
+          formControlName="clave"
+          type="password"
+          class="form-control"
+          placeholder="Clave"
+        />
+        @if (formEspecialista.get('clave'); as aux) { @if (aux.invalid &&
+        (aux.dirty)) {
+        <div class="alert hide alert-danger" role="alert">
+          {{
+            aux.hasError("required")
+              ? "La clave es obligatoria"
+              : "Clave no válida"
+          }}
+        </div>
+        } }
+      </div>
+
+      <div class="input-box">
+        <input
+          formControlName="dni"
+          type="text"
+          class="form-control"
+          placeholder="DNI"
+        />
+        @if (formEspecialista.get('dni'); as aux) { @if (aux.invalid &&
+        (aux.dirty)) {
+        <div class="alert hide alert-danger" role="alert">
+          {{
+            aux.hasError("required") ? "El DNI es obligatorio" : "DNI no válido"
+          }}
+        </div>
+        } }
+      </div>
+    </div>
+
+    <div class="linea">
+      <div class="input-box">
+        <input
+          formControlName="nombre"
+          type="text"
+          class="form-control"
+          placeholder="Nombre"
+        />
+        @if(formEspecialista.get('nombre'); as aux) { @if(aux.invalid &&
+        (aux.dirty)) {
+        <div class="alert hide alert-danger" role="alert">
+          {{
+            aux.hasError("required")
+              ? "El nombre es obligatorio"
+              : aux.hasError("invalidName")
+              ? "Nombre no válido"
+              : "Nombre debe tener entre 2 y 20 caracteres"
+          }}
+        </div>
+        } }
+      </div>
+
+      <div class="input-box">
+        <input
+          formControlName="apellido"
+          type="text"
+          class="form-control"
+          placeholder="Apellido"
+        />
+        @if(formEspecialista.get('apellido'); as aux) { @if(aux.invalid &&
+        (aux.dirty)) {
+        <div class="alert hide alert-danger" role="alert">
+          {{
+            aux.hasError("required")
+              ? "El apellido es obligatorio"
+              : aux.hasError("invalidName")
+              ? "Apellido no válido"
+              : "Apellido debe tener entre 2 y 20 caracteres"
+          }}
+        </div>
+        } }
+      </div>
+
+      <div class="input-box">
+        <input
+          formControlName="edad"
+          type="number"
+          class="form-control"
+          placeholder="Edad"
+          min="1"
+          max="120"
+        />
+        @if (formEspecialista.get('edad'); as aux) { @if (aux.invalid &&
+        (aux.dirty)) {
+        <div class="alert hide alert-danger" role="alert">
+          {{
+            aux.hasError("required")
+              ? "La edad es obligatoria"
+              : "Edad no válida"
+          }}
+        </div>
+        } }
+      </div>
+    </div>
+
+    <div class="linea">
+      <button class="btn" (click)="mostrarEspecialidadesClick()">
+        Seleccionar Especialidades
+      </button>
+
+      <div *ngIf="mostrarEspecialidades" @mostrarOcultarTrigger class="overlay">
+        <app-especialidades
+          (especialidadesSeleccionadas)="
+            recibirEspecialidadesSeleccionadas($event)
+          "
+          (cerrarEspecialidades)="cerrarEspecialidades()"
+        >
+        </app-especialidades>
+      </div>
+
+      <div class="input-box">
+        <input
+          type="file"
+          class="form-control"
+          id="selectFile"
+          (change)="onFileChange($event, 'imagen')"
+          placeholder="Imagen"
+        />
+        @if (formEspecialista.get('imagen'); as aux) { @if (aux.invalid &&
+        (aux.dirty)) {
+        <div class="alert hide alert-danger" role="alert">
+          La imagen es obligatoria
+        </div>
+        } }
+      </div>
+    </div>
+
+    <div class="linea">
+      <p>Especialidades seleccionadas: {{ especialidadesSeleccionadas }}</p>
+    </div>
     } @else {
-      <h1 style="user-select: none;">Registro Administrador</h1>
+
+    <!-- Formulario de Administrador -->
+
+    <div class="linea">
+      <div class="input-box">
+        <input
+          formControlName="correo"
+          type="email"
+          class="form-control"
+          placeholder="Correo"
+        />
+        @if (formAdministrador.get('correo'); as aux) { @if (aux.invalid &&
+        (aux.dirty)) {
+        <div class="alert hide alert-danger" role="alert">
+          {{
+            aux.hasError("required")
+              ? "El correo es obligatorio"
+              : "Correo no válido"
+          }}
+        </div>
+        } }
+      </div>
+
+      <div class="input-box">
+        <input
+          formControlName="clave"
+          type="password"
+          class="form-control"
+          placeholder="Clave"
+        />
+        @if (formAdministrador.get('clave'); as aux) { @if (aux.invalid &&
+        (aux.dirty)) {
+        <div class="alert hide alert-danger" role="alert">
+          {{
+            aux.hasError("required")
+              ? "La clave es obligatoria"
+              : "Clave no válida"
+          }}
+        </div>
+        } }
+      </div>
+
+      <div class="input-box">
+        <input
+          formControlName="dni"
+          type="text"
+          class="form-control"
+          placeholder="DNI"
+        />
+        @if (formAdministrador.get('dni'); as aux) { @if (aux.invalid &&
+        (aux.dirty)) {
+        <div class="alert hide alert-danger" role="alert">
+          {{
+            aux.hasError("required") ? "El DNI es obligatorio" : "DNI no válido"
+          }}
+        </div>
+        } }
+      </div>
+    </div>
+
+    <div class="linea">
+      <div class="input-box">
+        <input
+          formControlName="nombre"
+          type="text"
+          class="form-control"
+          placeholder="Nombre"
+        />
+        @if(formAdministrador.get('nombre'); as aux) { @if(aux.invalid &&
+        (aux.dirty)) {
+        <div class="alert hide alert-danger" role="alert">
+          {{
+            aux.hasError("required")
+              ? "El nombre es obligatorio"
+              : aux.hasError("invalidName")
+              ? "Nombre no válido"
+              : "Nombre debe tener entre 2 y 20 caracteres"
+          }}
+        </div>
+        } }
+      </div>
+
+      <div class="input-box">
+        <input
+          formControlName="apellido"
+          type="text"
+          class="form-control"
+          placeholder="Apellido"
+        />
+        @if(formAdministrador.get('apellido'); as aux) { @if(aux.invalid &&
+        (aux.dirty)) {
+        <div class="alert hide alert-danger" role="alert">
+          {{
+            aux.hasError("required")
+              ? "El apellido es obligatorio"
+              : aux.hasError("invalidName")
+              ? "Apellido no válido"
+              : "Apellido debe tener entre 2 y 20 caracteres"
+          }}
+        </div>
+        } }
+      </div>
+
+      <div class="input-box">
+        <input
+          formControlName="edad"
+          type="number"
+          class="form-control"
+          placeholder="Edad"
+          min="1"
+          max="120"
+        />
+        @if (formAdministrador.get('edad'); as aux) { @if (aux.invalid &&
+        (aux.dirty)) {
+        <div class="alert hide alert-danger" role="alert">
+          {{
+            aux.hasError("required")
+              ? "La edad es obligatoria"
+              : "Edad no válida"
+          }}
+        </div>
+        } }
+      </div>
+    </div>
+
+    <div class="linea">
+      <div class="input-box">
+        <input
+          type="file"
+          class="form-control"
+          id="selectFile"
+          (change)="onFileChange($event, 'imagenAdmin')"
+          placeholder="Imagen"
+        />
+        @if (formAdministrador.get('imagenAdmin'); as aux) { @if (aux.invalid &&
+        (aux.dirty)) {
+        <div class="alert hide alert-danger" role="alert">
+          La imagen es obligatoria
+        </div>
+        } }
+      </div>
+    </div>
     }
 
-    <form [formGroup]="obtenerFormularioActivo()">
-      @if (formActivo === 'Paciente') {
-        <!-- Formulario de Paciente -->
-        <!-- <re-captcha (resolved)="resolved($event)" siteKey="6LfMTPspAAAAACHfUnDTdRazvSIsrcDKkROWpdcq"></re-captcha> -->
+    <div class="linea">
+      <p class="mensaje" [ngClass]="{ error: error }" id="mensaje">
+        {{ mensaje }}
+      </p>
+    </div>
+    <br />
 
-         <div class="linea">
-          <div class="input-box">
-            <input formControlName="correo" type="email" class="form-control" placeholder="Correo">
-            @if (formPaciente.get('correo'); as aux) {
-              @if (aux.invalid && (aux.dirty)) {
-                <div class="alert hide alert-danger" role="alert">
-                  {{ aux.hasError("required") ? "El correo es obligatorio" : "Correo no válido" }}
-                </div>
-              }
-            }
-          </div>
-    
-          <div class="input-box">
-            <input formControlName="clave" type="password" class="form-control" placeholder="Clave">
-            @if (formPaciente.get('clave'); as aux) {
-              @if (aux.invalid && (aux.dirty)) {
-                <div class="alert hide alert-danger" role="alert">
-                  {{ aux.hasError("required") ? "La clave es obligatoria" : "Clave no válida" }}
-                </div>
-              }
-            }
-          </div>
-    
-          <div class="input-box">
-            <input formControlName="dni" type="text" class="form-control" placeholder="DNI"> 
-            @if (formPaciente.get('dni'); as aux) {
-              @if (aux.invalid && (aux.dirty)) {
-                <div class="alert hide alert-danger" role="alert">
-                  {{ aux.hasError("required") ? "El DNI es obligatorio" : "DNI no válido" }}
-                </div>
-              }
-            }
-          </div>
-         </div>
-        
-  
-        <div class="linea">
-          <div class="input-box">
-            <input formControlName="nombre" type="text" class="form-control" placeholder="Nombre">
-            @if(formPaciente.get('nombre'); as aux) {
-              @if(aux.invalid && (aux.dirty)) {
-                <div class="alert hide alert-danger" role="alert">
-                  {{ aux.hasError('required') ? "El nombre es obligatorio" : aux.hasError('invalidName') ?
-                   "Nombre no válido" : "Nombre debe tener entre 2 y 20 caracteres" }}
-                </div>
-              }
-            }
-          </div>
-          
-          <div class="input-box">
-            <input formControlName="apellido" type="text" class="form-control" placeholder="Apellido">
-            @if(formPaciente.get('apellido'); as aux) {
-              @if(aux.invalid && (aux.dirty)) {
-                <div class="alert hide alert-danger" role="alert">
-                  {{ aux.hasError('required') ? "El apellido es obligatorio" : aux.hasError('invalidName') ?
-                   "Apellido no válido" : "Apellido debe tener entre 2 y 20 caracteres" }}
-                </div>
-              }
-            }
-          </div>
-      
-          <div class="input-box">
-            <input formControlName="edad" type="number" class="form-control" placeholder="Edad" min="1" max="120">
-            @if (formPaciente.get('edad'); as aux) {
-              @if (aux.invalid && (aux.dirty)) {
-                <div class="alert hide alert-danger" role="alert">
-                  {{ aux.hasError("required") ? "La edad es obligatoria" : "Edad no válida" }}
-                </div>
-              }
-            }
-          </div>
-        </div>
-  
-  
-        <div class="linea">
-          <div class="input-box">
-            <input formControlName="obraSocial" type="text" class="form-control" placeholder="Obra Social">
-            @if (formPaciente.get('obraSocial'); as aux) {
-              @if (aux.invalid && (aux.dirty)) {
-                <div class="alert hide alert-danger" role="alert">
-                  {{ aux.hasError("required") ? "La obra social es obligatoria" : "Obra social no válida" }}
-                </div>
-              }
-            }
-          </div>
-    
-          <div class="input-box">
-            <input type="file" class="form-control"
-            (change)="onFileChange($event, 'imagenUno')" placeholder="Imagen Uno" id="selectFile">
-            @if (formPaciente.get('imagenUno'); as aux) {
-              @if (aux.invalid && (aux.dirty)) {
-                <div class="alert hide alert-danger" role="alert">
-                  La imagen 1 es obligatoria
-                </div>
-              }
-            }
-          </div>
-          
-          <div class="input-box">
-            <input type="file" class="form-control"
-             (change)="onFileChange($event, 'imagenDos')" placeholder="Imagen Dos" id="selectFile">
-            @if (formPaciente.get('imagenDos'); as aux) {
-              @if (aux.invalid && (aux.dirty)) {
-                <div class="alert hide alert-danger" role="alert">
-                  La imagen 2 es obligatoria
-                </div>
-              }
-            }
-          </div>
-        </div>
-      } @else if (formActivo === 'Especialista') {
-  
-        <!-- Formulario de Especialista -->
-  
-        <div class="linea">
-          <div class="input-box">
-            <input formControlName="correo" type="email" class="form-control" placeholder="Correo">
-            @if (formEspecialista.get('correo'); as aux) {
-              @if (aux.invalid && (aux.dirty)) {
-                <div class="alert hide alert-danger" role="alert">
-                  {{ aux.hasError("required") ? "El correo es obligatorio" : "Correo no válido" }}
-                </div>
-              }
-            }
-          </div>
-    
-          <div class="input-box">
-            <input formControlName="clave" type="password" class="form-control" placeholder="Clave">
-            @if (formEspecialista.get('clave'); as aux) {
-              @if (aux.invalid && (aux.dirty)) {
-                <div class="alert hide alert-danger" role="alert">
-                  {{ aux.hasError("required") ? "La clave es obligatoria" : "Clave no válida" }}
-                </div>
-              }
-            }
-          </div>
-    
-          <div class="input-box">
-            <input formControlName="dni" type="text" class="form-control" placeholder="DNI">
-            @if (formEspecialista.get('dni'); as aux) {
-              @if (aux.invalid && (aux.dirty)) {
-                <div class="alert hide alert-danger" role="alert">
-                  {{ aux.hasError("required") ? "El DNI es obligatorio" : "DNI no válido" }}
-                </div>
-              }
-            }
-          </div>
-        </div>
-        
-  
-        <div class="linea">
-          <div class="input-box">
-            <input formControlName="nombre" type="text" class="form-control" placeholder="Nombre">
-            @if(formEspecialista.get('nombre'); as aux) {
-              @if(aux.invalid && (aux.dirty)) {
-                <div class="alert hide alert-danger" role="alert">
-                  {{ aux.hasError('required') ? "El nombre es obligatorio" : aux.hasError('invalidName') ?
-                   "Nombre no válido" : "Nombre debe tener entre 2 y 20 caracteres" }}
-                </div>
-              }
-            }
-          </div>
-          
-          <div class="input-box">
-            <input formControlName="apellido" type="text" class="form-control" placeholder="Apellido">
-            @if(formEspecialista.get('apellido'); as aux) {
-              @if(aux.invalid && (aux.dirty)) {
-                <div class="alert hide alert-danger" role="alert">
-                  {{ aux.hasError('required') ? "El apellido es obligatorio" : aux.hasError('invalidName') ?
-                   "Apellido no válido" : "Apellido debe tener entre 2 y 20 caracteres" }}
-                </div>
-              }
-            }
-          </div>
-    
-          <div class="input-box">
-            <input formControlName="edad" type="number" class="form-control" placeholder="Edad" min="1" max="120">
-            @if (formEspecialista.get('edad'); as aux) {
-              @if (aux.invalid && (aux.dirty)) {
-                <div class="alert hide alert-danger" role="alert">
-                  {{ aux.hasError("required") ? "La edad es obligatoria" : "Edad no válida" }}
-                </div>
-              }
-            }
-          </div>
-        </div>
-  
+    <div class="linea">
+      <re-captcha
+        (resolved)="resolved($event)"
+        siteKey="6LdPWfspAAAAAKZFSQMNiWBTB8h5R_FEBYhLesV8"
+      ></re-captcha>
+    </div>
 
-        <div class="linea">
-          <button class="btn" (click)="mostrarEspecialidadesClick()">Seleccionar Especialidades</button>
-          
-          <div *ngIf="mostrarEspecialidades" @mostrarOcultarTrigger class="overlay">
-            <app-especialidades 
-              (especialidadesSeleccionadas)="recibirEspecialidadesSeleccionadas($event)" 
-              (cerrarEspecialidades)="cerrarEspecialidades()">
-            </app-especialidades>
-          </div>
-    
-          <div class="input-box">
-            <input type="file" class="form-control" id="selectFile"
-             (change)="onFileChange($event, 'imagen')" placeholder="Imagen">
-            @if (formEspecialista.get('imagen'); as aux) {
-              @if (aux.invalid && (aux.dirty)) {
-                <div class="alert hide alert-danger" role="alert">
-                  La imagen es obligatoria
-                </div>
-              }
-            }
-          </div>
-        </div>
+    <div class="botones">
+      <button
+        type="button"
+        class="btn"
+        (click)="registrar()"
+        [disabled]="obtenerFormularioActivo().invalid || !captchaResolved"
+      >
+        Crear Cuenta
+      </button>
 
-        <div class="linea">
-          <p>Especialidades seleccionadas: {{ especialidadesSeleccionadas }} </p>
-        </div>
-      } @else {
-        
-        <!-- Formulario de Administrador -->
-  
-        <div class="linea">
-          <div class="input-box">
-            <input formControlName="correo" type="email" class="form-control" placeholder="Correo">
-            @if (formAdministrador.get('correo'); as aux) {
-              @if (aux.invalid && (aux.dirty)) {
-                <div class="alert hide alert-danger" role="alert">
-                  {{ aux.hasError("required") ? "El correo es obligatorio" : "Correo no válido" }}
-                </div>
-              }
-            }
-          </div>
-    
-          <div class="input-box">
-            <input formControlName="clave" type="password" class="form-control" placeholder="Clave">
-            @if (formAdministrador.get('clave'); as aux) {
-              @if (aux.invalid && (aux.dirty)) {
-                <div class="alert hide alert-danger" role="alert">
-                  {{ aux.hasError("required") ? "La clave es obligatoria" : "Clave no válida" }}
-                </div>
-              }
-            }
-          </div>
-    
-          <div class="input-box">
-            <input formControlName="dni" type="text" class="form-control" placeholder="DNI">
-            @if (formAdministrador.get('dni'); as aux) {
-              @if (aux.invalid && (aux.dirty)) {
-                <div class="alert hide alert-danger" role="alert">
-                  {{ aux.hasError("required") ? "El DNI es obligatorio" : "DNI no válido" }}
-                </div>
-              }
-            }
-          </div>
-        </div>
-        
-  
-        <div class="linea">
-          <div class="input-box">
-            <input formControlName="nombre" type="text" class="form-control" placeholder="Nombre">
-            @if(formAdministrador.get('nombre'); as aux) {
-              @if(aux.invalid && (aux.dirty)) {
-                <div class="alert hide alert-danger" role="alert">
-                  {{ aux.hasError('required') ? "El nombre es obligatorio" : aux.hasError('invalidName') ?
-                   "Nombre no válido" : "Nombre debe tener entre 2 y 20 caracteres" }}
-                </div>
-              }
-            }
-          </div>
-          
-          <div class="input-box">
-            <input formControlName="apellido" type="text" class="form-control" placeholder="Apellido">
-            @if(formAdministrador.get('apellido'); as aux) {
-              @if(aux.invalid && (aux.dirty)) {
-                <div class="alert hide alert-danger" role="alert">
-                  {{ aux.hasError('required') ? "El apellido es obligatorio" : aux.hasError('invalidName') ?
-                   "Apellido no válido" : "Apellido debe tener entre 2 y 20 caracteres" }}
-                </div>
-              }
-            }
-          </div>
-    
-          <div class="input-box">
-            <input formControlName="edad" type="number" class="form-control" placeholder="Edad" min="1" max="120">
-            @if (formAdministrador.get('edad'); as aux) {
-              @if (aux.invalid && (aux.dirty)) {
-                <div class="alert hide alert-danger" role="alert">
-                  {{ aux.hasError("required") ? "La edad es obligatoria" : "Edad no válida" }}
-                </div>
-              }
-            }
-          </div>
-        </div>
-  
-  
-        <div class="linea">
-          <div class="input-box">
-            <input type="file" class="form-control" id="selectFile"
-             (change)="onFileChange($event, 'imagenAdmin')" placeholder="Imagen">
-            @if (formAdministrador.get('imagenAdmin'); as aux) {
-              @if (aux.invalid && (aux.dirty)) {
-                <div class="alert hide alert-danger" role="alert">
-                  La imagen es obligatoria
-                </div>
-              }
-            }
-          </div>
-        </div>
-      }
-  
-      <div class="linea">
-        <p class="mensaje" [ngClass]="{'error': error}" id="mensaje"> {{ mensaje }} </p>
-      </div>
-      <br>
-
-      <div class="linea">
-        <re-captcha (resolved)="resolved($event)" siteKey="6LdPWfspAAAAAKZFSQMNiWBTB8h5R_FEBYhLesV8"></re-captcha>
-      </div>
-
-      <div class="botones">
-        <button type="button" class="btn" (click)="registrar()"
-         [disabled]="(obtenerFormularioActivo()).invalid || !captchaResolved">
-          Crear Cuenta
-        </button>
-        
-        @if (formActivo === 'Paciente') {
+      <!-- @if (formActivo === 'Paciente') {
           <button class="btn" (click)="cambiarFormulario('Especialista')">Cambiar a Especialista</button>
         } @else if (formActivo === 'Especialista') {
           <button class="btn" (click)="cambiarFormulario('Paciente')">Cambiar a Paciente</button>
@@ -348,12 +544,14 @@
 
         @if (formActivo !== 'Administrador' && usuarioActual?.perfil === 'Administrador') {
           <button class="btn" (click)="cambiarFormulario('Administrador')">Cambiar a Administrador</button>
-        }
-      </div>
-    </form>
-  } @else {
-    <div class="contenedor-mensaje-confirmacion">
-      <app-mensaje-confirmacion [usuario]="usuarioActual"></app-mensaje-confirmacion>
+        } -->
     </div>
+  </form>
+  } @else {
+  <div class="contenedor-mensaje-confirmacion">
+    <app-mensaje-confirmacion
+      [usuario]="usuarioActual"
+    ></app-mensaje-confirmacion>
+  </div>
   }
 </div>

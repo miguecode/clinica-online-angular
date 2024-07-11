@@ -7,10 +7,10 @@ import { EspecialidadesService } from '../../../services/especialidades.service'
 import { Turno } from '../../../classes/turno';
 import { Especialista } from '../../../classes/especialista';
 import { Paciente } from '../../../classes/paciente';
-import { Administrador } from '../../../classes/administrador';
 import Swal from 'sweetalert2';
 import { FechaPipe } from '../../../pipes/fecha.pipe';
 import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tabla-turnos',
@@ -30,62 +30,64 @@ export class TablaTurnosComponent implements OnInit {
   pacienteSeleccionado: string[] = []; // Lista de los pacientes seleccionados
   filtroBuscar: string = ''; // Palabra de búsqueda
   turnosPropiosSinFiltro: Turno[] = [];
+  private turnosSubscription: Subscription = new Subscription();
 
   constructor(
     private usuarioService: FirestoreUsuariosService,
     private loader: LoaderService,
     private turnosService: TurnosService,
-    private especialidadesService: EspecialidadesService
+    private especialidadesService: EspecialidadesService,
   ) {}
 
   ngOnInit(): void {
     this.loader.show();
 
-    this.cargarTurnos()
-      .then(() => {
-        const promesas: Promise<any>[] = [];
-
-        promesas.push(this.cargarEspecialistas());
-        promesas.push(this.cargarPacientes());
-        
-        if (this.usuarioActual instanceof Especialista) {
-          this.especialidades = this.usuarioActual.especialidad;
-        } else {
-          promesas.push(this.cargarEspecialidades());
+    this.cargarDatosIniciales().then(() => {
+      this.turnosSubscription = this.turnosService.turnos$.subscribe(turnos => {
+        this.turnos = turnos;
+        // Filtro que los turnos sean propios del usuario (si no es administrador)
+        if (this.usuarioActual?.perfil !== 'Administrador') {
+          this.turnos = this.turnos.filter(
+            (turno) =>
+              turno.apellidoPaciente === this.usuarioActual?.apellido ||
+              turno.apellidoEspecialista === this.usuarioActual?.apellido
+          );
         }
-
-        return Promise.all(promesas); // Espero a que todas las promesas se resuelvan
-      })
-      .catch((error) => {
-        console.error('Error durante la inicialización:', error);
-      })
-      .finally(() => {
-        console.log(this.turnos);
-        console.log(this.especialidades);
-        console.log(this.especialistas);
-        console.log(this.pacientes);
 
         // Me duplico la lista de turnos propios filtrados
         this.turnosPropiosSinFiltro = this.turnos;
 
         this.loader.hide();
       });
+    }).catch(error => {
+      console.error('Error durante la inicialización:', error);
+      this.loader.hide();
+    });
+
+    this.loader.hide();
   }
 
-  async cargarTurnos() {
-    try {
-      this.turnos = await this.turnosService.getTurnos();
+  ngOnDestroy(): void {
+    this.turnosSubscription.unsubscribe();
+  }
 
-      // Filtro que los turnos sean propios del usuario (si no es administrador)
-      if (this.usuarioActual?.perfil !== 'Administrador') {
-        this.turnos = this.turnos.filter(
-          (turno) =>
-            turno.apellidoPaciente === this.usuarioActual?.apellido ||
-            turno.apellidoEspecialista === this.usuarioActual?.apellido
-        );
+  async cargarDatosIniciales() {
+    try {
+      const promesas: Promise<any>[] = [];
+
+      promesas.push(this.cargarEspecialistas());
+      promesas.push(this.cargarPacientes());
+
+      if (this.usuarioActual instanceof Especialista) {
+        this.especialidades = this.usuarioActual.especialidad;
+      } else {
+        promesas.push(this.cargarEspecialidades());
       }
+
+      await Promise.all(promesas); // Espero a que todas las promesas se resuelvan
     } catch (error) {
-      console.error('Error obteniendo turnos:', error);
+      console.error('Error durante la inicialización:', error);
+      throw error;
     }
   }
 
@@ -128,6 +130,9 @@ export class TablaTurnosComponent implements OnInit {
 
   // Función que devuelve un array con los turnos que pasen el filtro de los Checkbox
   get turnosFiltrados() {
+    console.log('Mira papa');
+    // console.log(this.turnos);
+
     if (
       this.usuarioActual?.perfil === 'Paciente' ||
       this.usuarioActual?.perfil === 'Administrador'
@@ -426,6 +431,10 @@ export class TablaTurnosComponent implements OnInit {
           paciente.historiaClinica = historiaClinica;
           console.log(paciente);
           this.usuarioService.updateUsuario(paciente);
+
+          // Ahora también le cargo la historia clínica al turno
+          turno.historiaClinica = historiaClinica;
+          this.turnosService.modificarTurno(turno);
         }
       }
     });
@@ -459,7 +468,7 @@ export class TablaTurnosComponent implements OnInit {
       const cFecha = valoresFecha.some(valor => valor!.toString().toLocaleLowerCase().includes(palabraClave));
 
       // Busco coincidencia en las historias clínicas
-      const cHistoria = this.buscarEnHistoriaClinica(turno.idPaciente, palabraClave);
+      const cHistoria = this.buscarEnHistoriaClinica(turno, palabraClave);
 
       // Si retorno TRUE, se agrega el turno a la lista de turnos a mostrar
       return cEspecialidad || cEspecialista || cPaciente || cComentario || cDiagnostico
@@ -467,18 +476,63 @@ export class TablaTurnosComponent implements OnInit {
     });
   }
 
-  buscarEnHistoriaClinica(idPaciente: string, palabraClave: string): boolean {
-    const paciente = this.pacientes.find(p => p.id === idPaciente);
-    if (!paciente || !paciente.historiaClinica || paciente.historiaClinica === 'NN') return false;
-
+  buscarEnHistoriaClinica(turno: Turno, palabraClave: string): boolean {
+    if (!turno || !turno.historiaClinica || turno.historiaClinica === 'NN') return false;
+    
     // Busco en los 'keys' del objeto 'historiaClinica'
-    const keys = Object.keys(paciente.historiaClinica);
+    const keys = Object.keys(turno.historiaClinica);
     const cKeys = keys.some(key => key.toLowerCase().includes(palabraClave));
+
+    // Busco en los valores del objeto 'historiaClinica'
+    const valores = Object.values(turno.historiaClinica);
+    const cValores = valores.some(valor => valor!.toString().toLowerCase().includes(palabraClave));
+
+    return cKeys || cValores;
+
+    // Esto era para buscar coincidencias en la historia clínica de los pacientes, recibiendo id de paciente
+    // const paciente = this.pacientes.find(p => p.id === idPaciente);
+    // if (!paciente || !paciente.historiaClinica || paciente.historiaClinica === 'NN') return false;
+    // Busco en los 'keys' del objeto 'historiaClinica'
+    // const keys = Object.keys(paciente.historiaClinica);
+    // const cKeys = keys.some(key => key.toLowerCase().includes(palabraClave));
   
     // Busco en los valores del objeto 'historiaClinica'
-    const valores = Object.values(paciente.historiaClinica);
-    const cValores = valores.some(valor => valor!.toString().toLowerCase().includes(palabraClave));
+    // const valores = Object.values(paciente.historiaClinica);
+    // const cValores = valores.some(valor => valor!.toString().toLowerCase().includes(palabraClave));
   
-    return cKeys || cValores;
+    // return cKeys || cValores;
   }
+
+  mostrarHistoriaClinica(turno: Turno) {
+    if (!turno || turno.historiaClinica === 'NN') {
+      Swal.fire({
+        title: 'Historia Clínica',
+        text: 'La historia clínica está vacía o no se cargó aún.',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#3c5ebc',
+        icon: 'info',
+      });
+      return;
+    }
+
+    const historiaClinica = turno.historiaClinica;
+    const fijos = `
+    Temperatura: ${historiaClinica.temperatura || 'N/A'} °C <br>
+    Peso: ${historiaClinica.peso || 'N/A'} kg <br>
+    Presión: ${historiaClinica.presion || 'N/A'} mmHg <br>
+    Altura: ${historiaClinica.altura || 'N/A'} cm <br>
+  `;
+
+    const opcionales = Object.keys(historiaClinica)
+      .filter(key => !['temperatura', 'peso', 'presion', 'altura'].includes(key))
+      .map(key => `${key}: ${historiaClinica[key]}`)
+      .join('<br>');
+
+    Swal.fire({
+      title: 'Historia Clínica',
+      html: `${fijos}${opcionales}`,
+      confirmButtonText: 'Listo',
+      confirmButtonColor: '#3c5ebc',
+    });
+  };
 }

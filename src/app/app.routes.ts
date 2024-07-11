@@ -58,6 +58,11 @@ export const routes: Routes = [
     canActivate: [logeadoGuard, especialistaGuard]
   },
   {
+    path: 'graficos',
+    loadComponent: () => import('./components/graficos/graficos.component').then(m => m.GraficosComponent),
+    canActivate: [logeadoGuard, adminGuard]
+  },
+  {
     path: '**',
     loadComponent: () => import('./components/error/error.component').then(m => m.ErrorComponent),
   }

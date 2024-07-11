@@ -136,10 +136,18 @@
               <td class="tdBoton"><button id="btnResenia" (click)="verResenia(turno)">RESEÑA</button></td>
             }
 
-            @if (turno.estado === 'Realizado' && turno.diagnostico !== 'NN') {
+            @if (turno.estado === 'Realizado' && turno.diagnostico !== 'NN' && turno.historiaClinica === 'NN') {
               <td class="tdBoton">
                   <button id="btnEncuesta" (click)="cargarHistoriaClinica(turno)">
                   CARGAR HISTORIA CLÍNICA
+                </button>
+              </td>
+            }
+
+            @if (turno.estado === 'Realizado' && turno.diagnostico !== 'NN' && turno.historiaClinica !== 'NN') {
+              <td class="tdBoton">
+                  <button id="btnEncuesta" (click)="mostrarHistoriaClinica(turno)">
+                  VER HISTORIA CLÍNICA
                 </button>
               </td>
             }

@@ -70,4 +70,8 @@ export class InicioComponent implements OnInit {
   irAPacientes() {
     this.router.navigate(['/pacientes']);
   }
+
+  irAGraficos() {
+    this.router.navigate(['/graficos']);
+  }
 }

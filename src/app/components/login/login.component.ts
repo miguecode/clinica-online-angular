@@ -10,6 +10,7 @@ import { LoaderService } from '../../services/loader.service';
 import { Especialista } from '../../classes/especialista';
 import { Paciente } from '../../classes/paciente';
 import { Administrador } from '../../classes/administrador';
+import { LogsService } from '../../services/logs.service';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,7 @@ export class LoginComponent implements OnInit{
   accesosRapidos: Usuario[] = [];
 
   constructor(private authService: AuthService, private usuarioService: FirestoreUsuariosService,
-    private router: Router, private fb: FormBuilder, private loader: LoaderService) {}
+    private router: Router, private fb: FormBuilder, private loader: LoaderService, private logs: LogsService) {}
 
 
   // Función que se ejecuta al inicializar el componente, crea al formulario y carga los accesos rápidos
@@ -93,6 +94,7 @@ export class LoginComponent implements OnInit{
         return; 
       };
       
+      await this.logs.crear(this.usuarioIngresado?.apellido);
       this.vaciarCampos();
       this.loader.hide();
       this.router.navigate(['/inicio']);
