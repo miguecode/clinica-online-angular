@@ -11,11 +11,12 @@ import { Especialista } from '../../classes/especialista';
 import { Paciente } from '../../classes/paciente';
 import { Administrador } from '../../classes/administrador';
 import { LogsService } from '../../services/logs.service';
+import { AnimatedBorderDirective } from '../../directives/animated-border.directive';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, RouterModule, NgClass, InicioComponent, ReactiveFormsModule],
+  imports: [FormsModule, RouterModule, NgClass, InicioComponent, ReactiveFormsModule, AnimatedBorderDirective],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
