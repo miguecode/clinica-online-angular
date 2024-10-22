@@ -91,8 +91,9 @@ th, td {
 
 .boton {
   margin-top: 20px;
-  width: 40%;
-  height: 60px;
+  /* width: 40%; */
+  /* height: 60px; */
+  padding: 15px 65px;
   background: #3354ae;
   border: none;
   outline: none;

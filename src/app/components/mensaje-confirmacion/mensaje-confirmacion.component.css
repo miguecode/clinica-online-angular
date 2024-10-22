@@ -30,8 +30,9 @@ p {
 
 button {
   margin-top: 20px;
-  width: 40%;
-  height: 80px;
+  /* width: 40%; */
+  /* height: 60px; */
+  padding: 15px 65px;
   max-height: max-content;
   background: #fff;
   border: none;

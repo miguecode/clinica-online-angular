@@ -53,8 +53,9 @@
 .boton {
   margin-top: 5px;
   margin-bottom: 0px;
-  width: 270px;
-  height: 40px;
+  /* width: 40%; */
+  /* height: 60px; */
+  padding: 15px 65px;
   background: #3354ae;
   border: none;
   outline: none;

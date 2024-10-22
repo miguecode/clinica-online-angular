@@ -23,6 +23,7 @@
         @if (usuario.perfil == 'Paciente') {
           <p><span>Obra Social: </span>{{ usuario?.obraSocial }}</p>
           <button (click)="mostrarHistoriaClinica()">Ver Historia Clínica</button>
+          <button (click)="descargarHistoriaClinica()" class="botonPDF" >Descargar Historia Clínica (PDF)</button>
         } @else if (usuario.perfil == 'Especialista') {
           <p><span>Disponibilidad: </span>{{ usuario?.disponibilidad | disponibilidad }}</p>
           <button (click)="mostrarHorariosClick()">Configurar Disponibilidad Horaria</button>

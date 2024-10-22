@@ -357,7 +357,6 @@ export class TablaTurnosComponent implements OnInit {
             background-color: black;
           }
         </style>
-
         <p>Completá los 4 campos obligatorios. También podés agregar 3 opcionales.</p>
         <label for="altura">Altura</label>
         <input id="altura" class="swal2-input" style="border-color: black;" type="number" min="100" max="700"> <br>
@@ -383,7 +382,7 @@ export class TablaTurnosComponent implements OnInit {
         const peso = (document.getElementById('peso') as HTMLInputElement).value;
         const temperatura = (document.getElementById('temperatura') as HTMLInputElement).value;
         const presion = (document.getElementById('presion') as HTMLInputElement).value;
-        
+  
         const campoOpcionalKey1 = (document.getElementById('campoOpcionalKey1') as HTMLInputElement).value;
         const campoOpcionalValue1 = (document.getElementById('campoOpcionalValue1') as HTMLInputElement).value;
         const campoOpcionalKey2 = (document.getElementById('campoOpcionalKey2') as HTMLInputElement).value;
@@ -415,7 +414,9 @@ export class TablaTurnosComponent implements OnInit {
         console.log(result.value);
   
         if (paciente) {
-          const historiaClinica: any = {
+          // Crear una nueva entrada de historia clínica
+          const nuevaEntrada: any = {
+            fecha: turno.fecha.dia,
             altura,
             peso,
             temperatura,
@@ -424,21 +425,29 @@ export class TablaTurnosComponent implements OnInit {
   
           opcionales.forEach((opcional: { key: string; value: string; }) => {
             if (opcional.key && opcional.value && opcional.key !== 'NN' && opcional.value !== 'NN') {
-              historiaClinica[opcional.key] = opcional.value;
+              nuevaEntrada[opcional.key] = opcional.value;
             }
           });
   
-          paciente.historiaClinica = historiaClinica;
-          console.log(paciente);
+          // Si la historia clínica no existe, la inicializo como un array vacío
+          if (!paciente.historiaClinica || paciente.historiaClinica === 'NN') {
+            paciente.historiaClinica = [];
+          }
+  
+          // Agrego la nueva entrada de historia clínica al array
+          paciente.historiaClinica.push(nuevaEntrada);
+  
+          // Guardo la historia clínica actualizada en el servicio de usuarios
           this.usuarioService.updateUsuario(paciente);
-
+  
           // Ahora también le cargo la historia clínica al turno
-          turno.historiaClinica = historiaClinica;
+          turno.historiaClinica = nuevaEntrada;
           this.turnosService.modificarTurno(turno);
         }
       }
     });
   }
+  
 
   buscar() {
     // Vuelvo a poner a todos los turnos posibles en la lista

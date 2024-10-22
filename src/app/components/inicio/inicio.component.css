@@ -44,8 +44,9 @@ h3 {
 
 button {
   margin-top: 20px;
-  width: 40%;
+  width: 400px;
   height: 60px;
+  /* padding: 15px 65px; */
   background: #fff;
   border: none;
   outline: none;

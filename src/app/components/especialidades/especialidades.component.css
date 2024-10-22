@@ -27,8 +27,9 @@
 
 
 button {
-  width: 45%;
-  height: 68px;
+  width: 350px;
+  height: 60px;
+  /* padding: 40px 65px; */
   background: #fff;
   border: none;
   outline: none;
