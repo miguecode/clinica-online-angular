@@ -50,4 +50,4 @@ src/environments/environment.ts
 src/environments/environment.prod.ts
 
 # Captcha
-keys-recaptcha
+keys-recaptcha.txt
