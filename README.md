@@ -1,31 +1,14 @@
-# 🏥 Clínica Online
+# 🏥 Clínica Online - Sitio Web
 
-## 📝Segundo Parcial de Laboratorio IV, 2024
+Este proyecto es un sitio web desarrollado con Angular. Fue creado en 2024 y simula la interfaz y el funcionamiento básico de una clínica online. Utiliza los servicios de Google Firebase.
 
-## 🧑 Datos del alumno
+**⭐ Link: [Clínica Online](clinica-online-f6245.web.app)**
 
-- **Nombre y apellido**: Miguel Ángel Gil
-- **Número de Legajo**: 110750
-- **Correo**: junmigue7@gmail.com
-- **GitHub**: Leumig
+## 📘 Descripción
 
-## 🛠️ Herramientas usadas
+Clínica Online es un sitio web hecho con Angular 17 que utiliza distintos servicios de Google Firebase. Simula ser una clínica online con acceso a distintos tipos de usuarios: Administradores, Especialistas y Pacientes. La idea principal del funcionamiento es que un paciente pueda solicitar su propio turno, y que un especialista lo administre.
 
-- Angular
-- TypeScript, HTML, CSS
-- Firebase
-- reCaptcha
-- SweetAlert2
-
-## 🌟 ¿De qué se trata el proyecto?
-
-Se trata de una **aplicación web SPA** (Single Page Application) hecha con el **framework Angular**, que funciona gracias a los servicios de **Google Firebase**. La página simula ser una **Clínica Online**, con acceso a distintos tipos de usuarios: **Administradores, Especialistas y Pacientes**. La idea principal es que un paciente sea capaz de **solicitar su propio turno**, seleccionando el día y la hora disponibles, y que sea de la especialidad que él quiera (Pediatría, Odontología, Kinesiología, entre otras).
-
----
-
-## ⚙️ Tecnicismos del funcionamiento de la aplicación
-
-### 🔑 Forma de Registro
+## 🔑 Forma de Registro
 
 Para registrarse, cada usuario tendrá que ingresar los siguientes datos en común:
 
@@ -44,37 +27,34 @@ Pero además, dependiendo el tipo de usuario, puede variar algún campo:
 
 Un requisito extra a la hora de registrarse, es que el usuario tendrá que **completar el reCaptcha**, en el cual va a validar que **no es un robot**. Y por último, una vez completado correctamente el formulario, se le enviará un **correo de confirmación** a la dirección de correo que haya ingresado el usuario. Ese correo tendrá un link con el fin de **validar** que es un correo existente.
 
-### 👥 Entidades y sus funciones
+### 👥 Entidades principales
 
-- 🤒 **Paciente**: Un paciente podrá ver los datos de su **perfil**, solicitar un **turno** y ver la **lista de sus turnos** solicitados. A la hora de solicitar uno, tendrá que especificar la **especialidad**, el **especialista** y la **fecha**. En la sección de turnos, va a poder **cancelar** alguno si es que aún no fue completado o rechazado (dando su justificación), **calificar** la atención, y completar una **encuesta**.
+- 🤒 **Paciente**: Un paciente podrá ver los datos de su **perfil**, solicitar un **turno** y ver la lista de sus **turnos solicitados**. A la hora de solicitar uno, tendrá que especificar la **especialidad**, el **especialista** y la **fecha**. En la sección de turnos, va a poder **cancelar** alguno si es que aún no fue completado o rechazado (dando su justificación), **calificar** la atención, y completar una **encuesta**.
 
 - 👨‍⚕️ **Especialista**: Un especialista podrá ver los datos de su **perfil**, y acceder a su **lista de sus turnos**. En esta sección, tendrá la posibilidad de **aceptar**, **rechazar**, **cancelar** o **dar por finalizado** un turno. Cada una de estas acciones requerirán adjuntar un **comentario o diagnóstico** al respecto. En su perfil, además de ver sus datos, también tendrá la opción de **configurar su disponibilidad horaria**, eligiendo qué días puede trabajar, y a qué horarios especificos con un margen de **30 minutos** cada uno. Este tipo de usuario tiene la particularidad de que para poder acceder a la web, tendrá que **esperar a que un Administrador lo habilite**.
 
 - 👨‍💼 **Administrador**: Un administrador podrá ver los datos de su **perfil**, y acceder a la **lista completa de turnos**. En esta sección, podrá **cancelar** el turno que quiera, siempre y cuando no esté en una etapa avanzada. También tendrá acceso a la **gestión de usuarios**. En ella, verá los **datos** de cada uno de ellos, y una opción para **habilitar** o **deshabilitar** a los especialistas. Por último, en esta sección va a poder **crear nuevos usuarios** de cualquier tipo. **Incluso administradores**.
 
-### 👥 Otras entidades
 
-- 🎫 **Turno**: Un turno será lo que el paciente va a solicitar, y es un objeto que se conforma por los siguientes elementos:
-  - ID y apellido del paciente
-  - ID y apellido del especialista
-  - Especialidad (puede ser una o más de una)
-  - Comentario (ante un rechazo o cancelación)
-  - Diagnóstico (una vez finalizado)
-  - Resultados de la encuesta (3 respuestas)
-  - Fecha (día y horario)
-  - Estado (pendiente, aceptado, rechazado, cancelado, finalizado)
-- 🩺 **Especialidad**: Una especialidad médica es un estudio cursado por un licenciado en medicina, y es aquella que podrá ser seleccionada por el paciente que solicita un turno. Como dijimos anteriormente, cada especialista tendrá que indicar qué especialidades posee, cuantas más tenga, mayor será su disponibilidad. El sistema tiene almacenada una lista de especialidades por defecto, a pesar de que cada especialista puede agregar una nueva. La lista consta de:
-  - Pediatría
-  - Oftalmología
-  - Odontología
-  - Neumología
-  - Kinesiología
-  - Dermatología
-  - Cardiología
+
+
+
+
+
+
+
+
+
+
+
 
 ---
 
-## 🖥️ Pantallas y sus detalles
+
+
+---
+
+## 🖥️ Pantallas principales
 
 - Bienvenida
 
@@ -153,3 +133,32 @@ Un requisito extra a la hora de registrarse, es que el usuario tendrá que **com
   <img src="https://github.com/Leumig/clinica-online-angular/assets/103081146/b7dbdbe2-bff0-4c96-b908-8d5164e2bb22" width="510"/>
 
   Podemos ver la tabla con toda la información de cada usuario. Hay 2 botones grandes en forma de filtro. El primero representa a los pacientes y el segundo a los especialistas. Como en este caso se están mostrando los especialistas, en la tabla podemos ver una opción extra que es la de habilitar o deshabilitar. De esta forma el administrador maneja el estado de ese tipo de usuario. Y por último, podemos ver un botón de Crear Usuario. Eso lo lleva a la sección de registro, donde también podrá agregar otros administradores.
+
+
+
+
+
+
+## 📋 Detalles técnicos
+
+- 🔧 Framework y Lenguajes
+
+  - 🅰️ Angular 17 (Typescript, HTML, CSS)
+  - 🎨 Bootstrap
+  - 🖌️ Estilos tomados de otras librerías como SweetAlert2 (para botones, componentes, fuentes, etc.).
+
+- 🔐 Servicios
+
+  - 🔑 Firebase Authentication
+  - 🗄️ Firebase Firestore
+  - 🌐 Firebase Hosting
+  - 🤖 reCaptcha
+
+## 📌 Aclaraciones
+
+- Fue creado en 2024, mientras cursaba la Tecnicatura Universitaria en Programación, en la UTN.
+- La página podría llegar a actualizarse en un futuro, aunque no es uno de mis proyectos principales.
+- El proyecto está bajo la licencia MIT.
+
+## 🗃️ Otros proyectos similares
+- [Playroom MG](https://github.com/Leumig/playroom-angular)
