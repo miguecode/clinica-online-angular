@@ -1,6 +1,6 @@
 # 🏥 Clínica Online - Sitio Web
 
-Este proyecto es un sitio web desarrollado con Angular. Fue creado en 2024 y simula la interfaz y el funcionamiento básico de una clínica online. Utiliza los servicios de Google Firebase.
+Este proyecto es un sitio web desarrollado con Angular. Simula la interfaz y el funcionamiento básico de una clínica online. Utiliza los servicios de Google Firebase.
 
 **⭐ Link: [Clínica Online](clinica-online-f6245.web.app)**
 
@@ -91,10 +91,6 @@ Un requisito extra a la hora de registrarse, es que el usuario tendrá que **com
   - 🗄️ Firebase Firestore
   - 🌐 Firebase Hosting
   - 🤖 reCaptcha
-
-## 📌 Aclaraciones
-- Fue creado en 2024, mientras cursaba la Tecnicatura Universitaria en Programación, en la UTN.
-- La página podría llegar a actualizarse en un futuro, aunque no es uno de mis proyectos principales.
 - El proyecto está bajo la licencia MIT.
 
 ## 🗃️ Otros proyectos similares
