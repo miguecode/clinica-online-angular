@@ -41,19 +41,19 @@ Un requisito extra a la hora de registrarse, es que el usuario tendrá que **com
 
   En este caso, vemos el registro diseñado para crear un paciente. Abajo tenemos la opción de cambiar al formulario de especialista. El botón de confirmación sólo se habilita cuando todos los campos y el captcha están completados correctamente.
   
-  <img src="https://github.com/Leumig/clinica-online-angular/assets/103081146/e23afc0b-da93-44b9-a0ba-5122c2177e03" width="720"/>
+  <img src="https://github.com/miguecode/clinica-online-angular/assets/103081146/e23afc0b-da93-44b9-a0ba-5122c2177e03" width="720"/>
 
 - Inicio como Paciente
   
   El menú es muy sencillo, el paciente tiene 2 opciones disponibles: Ver sus turnos o solicitar uno.
 
-  <img src="https://github.com/Leumig/clinica-online-angular/assets/103081146/c3ecd689-9674-4406-afd1-a45f78fb2f50" width="720"/>
+  <img src="https://github.com/miguecode/clinica-online-angular/assets/103081146/c3ecd689-9674-4406-afd1-a45f78fb2f50" width="720"/>
 
 - Solicitar Turno
 
   En este menú el paciente solicitará su turno. Podrá elegir la especialidad, el especialista y la fecha. Dependiendo de qué especialidad se elija, se mostrarán los especialistas que la posean. Y las fechas que aparecen son las que el especialista tenga disponibles. Recordemos que los administradores también pueden crear o administrar turnos.
 
-  <img src="https://github.com/Leumig/clinica-online-angular/assets/103081146/f6124e93-82fb-4ae6-9ad2-8d514b0dd355" width="720"/>
+  <img src="https://github.com/miguecode/clinica-online-angular/assets/103081146/f6124e93-82fb-4ae6-9ad2-8d514b0dd355" width="720"/>
   
 - Mis turnos
 
@@ -65,7 +65,7 @@ Un requisito extra a la hora de registrarse, es que el usuario tendrá que **com
 
   El especialista elegirá entre los 6 días posibles, y sus respectivos horarios.
 
-  <img src="https://github.com/Leumig/clinica-online-angular/assets/103081146/2aff3ddb-d647-463f-9401-ff8c9911f8cf" width="720"/>
+  <img src="https://github.com/miguecode/clinica-online-angular/assets/103081146/2aff3ddb-d647-463f-9401-ff8c9911f8cf" width="720"/>
 
 - Gestión de Usuarios
 
