@@ -91,6 +91,7 @@ Un requisito extra a la hora de registrarse, es que el usuario tendrá que **com
   - 🗄️ Firebase Firestore
   - 🌐 Firebase Hosting
   - 🤖 reCaptcha
+
 - El proyecto está bajo la licencia MIT.
 
 ## 🗃️ Otros proyectos similares
