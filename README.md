@@ -94,4 +94,4 @@ Un requisito extra a la hora de registrarse, es que el usuario tendrá que **com
 - El proyecto está bajo la licencia MIT.
 
 ## 🗃️ Otros proyectos similares
-- [Playroom MG](https://github.com/Leumig/playroom-angular)
+- [Playroom MG](https://github.com/miguecode/playroom-angular)
